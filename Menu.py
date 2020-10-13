@@ -2,7 +2,7 @@
 from screens import servidor
 import pygame
 import sys
-
+#-
 pygame.init()
 
 #menu loop
