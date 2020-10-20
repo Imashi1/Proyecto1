@@ -4,11 +4,9 @@
 
 def server():
      import pygame
-     import socket
      import sys
-     sys.path.insert(0,'../')
      import funcionesgenerales
-     from screens import s_juego
+     import s_juego
   
      serv=pygame.display.set_mode((1152,700))
      cursor1=funcionesgenerales.Cursor()

@@ -1,7 +1,7 @@
 #Libraries
-from screens import servidor
-from screens import s_opciones
-from screens import s_ayuda
+import servidor
+import s_opciones
+import s_ayuda
 import funcionesgenerales
 import pygame
 import sys
