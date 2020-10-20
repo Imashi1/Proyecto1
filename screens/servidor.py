@@ -1,12 +1,15 @@
 #Libraries
 
 #server loop
+
 def server():
      import pygame
+     import socket
      import sys
      sys.path.insert(0,'../')
      import funcionesgenerales
      from screens import s_juego
+  
      serv=pygame.display.set_mode((1152,700))
      cursor1=funcionesgenerales.Cursor()
      btn_1v1=pygame.image.load('img/atras.png')
@@ -37,4 +40,5 @@ def server():
           boton1.update(serv,cursor1)
           btnjugar.update(serv,cursor1)
           pygame.display.update()
+      
                

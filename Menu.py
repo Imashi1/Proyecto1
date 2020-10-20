@@ -19,6 +19,10 @@ def menup():
      #el barco del fondo
      ship1=pygame.image.load('img/ship.png')
      ship2=pygame.image.load('img/n.png')
+     #
+     pygame.mixer.music.load('music/music.mp3')
+     pygame.mixer.music.play(-1)
+     #
      #imagen de botones
      unov1=pygame.image.load('img/btn1vs1.png')
      unov12=pygame.image.load('img/btn1vs12.png')
@@ -28,7 +32,6 @@ def menup():
      ayuda2=pygame.image.load('img/btnayuda2.png')
      salir=pygame.image.load('img/btnsalir.png')
      salir2=pygame.image.load('img/btnsalir2.png')
-     
      #titulo menu
      mifuente=pygame.font.SysFont("Italic",96)
      titulo_menu=mifuente.render("BATTLESHIP",0,(255,255,255))
@@ -37,6 +40,7 @@ def menup():
      btnopciones=funcionesgenerales.Boton(opciones,opciones2,310,580)
      btnayuda=funcionesgenerales.Boton(ayuda,ayuda2,590,580)
      btnsalir=funcionesgenerales.Boton(salir,salir2,870,580)
+     
      running_menu=True
      while running_menu:
           for event in pygame.event.get():

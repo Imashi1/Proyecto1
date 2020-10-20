@@ -19,3 +19,4 @@ class Boton(pygame.sprite.Sprite):
           else: self.imagen_actual=self.imagen_normal
 
           pantalla.blit(self.imagen_actual,self.rect)
+##
