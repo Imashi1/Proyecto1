@@ -2,7 +2,11 @@ import socket
 from _thread import *
 from player import Player
 import pickle
+<<<<<<< HEAD
 server = "192.168.8.104"
+=======
+server = "192.168.0.3"
+>>>>>>> 1bb6ed2796ac6240b20a331692f35b93023900d1
 port = 5555
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 try:
@@ -11,8 +15,11 @@ except socket.error as e:
     str(e)
 s.listen(2)
 print("waiting for a connection, server started")
-
-
+#player1 = [Player(0,0,50,50,(255,0,0))]
+#player2 = [Player(100,100,50,50,(0,0,255))]
+#players = player1 + player2
+#players-= player
+#currentplayer-=1
 players=[Player(0,0,50,50,(255,0,0)),Player(100,100,50,50,(0,0,255))]
 def threaded_client(conn, player):
         conn.send(pickle.dumps(players[player]))
