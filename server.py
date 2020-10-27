@@ -2,11 +2,7 @@ import socket
 from _thread import *
 from player import Player
 import pickle
-<<<<<<< HEAD
 server = "192.168.8.104"
-=======
-server = "192.168.0.3"
->>>>>>> 1bb6ed2796ac6240b20a331692f35b93023900d1
 port = 5555
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 try:
