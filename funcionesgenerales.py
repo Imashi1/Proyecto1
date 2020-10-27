@@ -19,4 +19,20 @@ class Boton(pygame.sprite.Sprite):
           else: self.imagen_actual=self.imagen_normal
 
           pantalla.blit(self.imagen_actual,self.rect)
-##
+class Barco(pygame.sprite.Sprite):
+     def __init__(self,imagen1,imagen2,x=200,y=200):
+          self.imagen_normal=imagen1
+          self.imagen_seleccion=imagen2
+          self.imagen_actual=self.imagen_normal
+          self.rect=self.imagen_actual.get_rect()
+          self.rect.left,self.rect.top=(x,y)
+     def update(self,pantalla,cursor):
+          if cursor.colliderect(self.rect):
+               self.imagen_actual=self.imagen_seleccion
+          else: self.imagen_actual=self.imagen_normal
+
+          pantalla.blit(self.imagen_actual,self.rect)
+     def mover(self,cursor):
+          if cursor.colliderect(self.rect):
+               pass
+          else: self.rect.left,self.rect.top=pygame.mouse.get_pos()

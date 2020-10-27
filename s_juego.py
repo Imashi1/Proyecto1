@@ -11,7 +11,8 @@ def juego():
      btn_1v1=pygame.image.load('img/atras.png')
      btn_1v12=pygame.image.load('img/atras2.png')
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
-  
+     imagenbarco=pygame.image.load('img/barco123.png')
+     barco=funcionesgenerales.Barco(imagenbarco,imagenbarco,1,1)
      n=Network()
      p = n.getP()
      #game loop
@@ -37,5 +38,6 @@ def juego():
           p.move()
           p.draw(battleship)
           p2.draw(battleship)
+          barco.update(battleship,cursor1)
           pygame.display.update()
                
