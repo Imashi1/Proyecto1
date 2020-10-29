@@ -40,7 +40,7 @@ class Barco(pygame.sprite.Sprite):
           else: self.imagen_actual=self.imagen_normal
 
           pantalla.blit(self.imagen_actual,self.rect)
-     def mover(self,cursor):
+     def mover(self,cursor,dimension,p_inicio,barcomoviendo):
           if cursor.colliderect(self.rect):
                pass
           else:
@@ -49,8 +49,18 @@ class Barco(pygame.sprite.Sprite):
                     self.rect.left=10
                if self.rect.top<100:
                     self.rect.top=100
-               #if self.rect.left-pygame.Surface.get_width(self.imagen_normal)>570:
-               #if self.rect.top-pygame.Surface.get_height(self.imagen_normal)>460:
+               #if self.rect.left+pygame.Surface.get_width(self.imagen_normal)>570:
+               #if self.rect.top+pygame.Surface.get_height(self.imagen_normal)>460:
+          if barcomoviendo==False:
+               if cursor.colliderect(self.rect):
+                    xr,yr=self.rect.left,self.rect.top
+                    for i in range(10):
+                         for j in range(10):
+                              x=i*dimension+p_inicio[0]
+                              y=j*dimension+p_inicio[1]
+                              if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
+                                   self.rect.left,self.rect.top=x+10,y+10
+                                   
                
      def rotar(self,angulo):
           imagen_actual=pygame.transform.rotate(self.imagen_normal,angulo)

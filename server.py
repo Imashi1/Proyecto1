@@ -18,30 +18,30 @@ print("waiting for a connection, server started")
 #currentplayer-=1
 players=[Player(0,0,50,50,(255,0,0)),Player(100,100,50,50,(0,0,255))]
 def threaded_client(conn, player):
-        conn.send(pickle.dumps(players[player]))
-        reply = ""
-        while True:
-                try:
-                    data = pickle.loads(conn.recv(2048))
-                    players[player]=data
-                    if not data:
-                        print("Disconnected")
-                        break
-                    else:
-                        if player ==1:
-                            reply=players[0]
-                        else:
-                            reply=players[1]
-                        print("Recieved:",data)
-                        print("Sending: ",reply)
-                    conn.sendall(pickle.dumps(reply))
-                except:
-                        break
-        print("Lost connection")
-        conn.close()
+    conn.send(pickle.dumps(players[player]))
+    reply = ""
+    while True:
+        try:
+            data = pickle.loads(conn.recv(2048))
+            players[player]=data
+            if not data:
+                print("Disconnected")
+                break
+            else:
+                if player ==1:
+                    reply=players[0]
+                else:
+                    reply=players[1]
+                print("Recieved:",data)
+                print("Sending: ",reply)
+            conn.sendall(pickle.dumps(reply))
+        except:
+            break
+    print("Lost connection")
+    conn.close()
 currentPlayer = 0
 while True:
-        conn,addr = s.accept()
-        print("connected to:",addr)
-        start_new_thread(threaded_client,(conn,currentPlayer))
-        currentPlayer +=1
+    conn,addr = s.accept()
+    print("connected to:",addr)
+    start_new_thread(threaded_client,(conn,currentPlayer))
+    currentPlayer +=1
