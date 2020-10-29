@@ -1,6 +1,11 @@
 #Libraries
 import pygame
+from decimal import Decimal, ROUND_HALF_UP
 import sys
+import numpy as np
+import pandas as pd
+def round_well(num):
+     return Decimal(num).quantize(0,ROUND_HALF_UP)
 class Cursor(pygame.Rect):
      def __init__(self):
           pygame.Rect.__init__(self,0,0,1,1)
@@ -27,6 +32,8 @@ class Barco(pygame.sprite.Sprite):
           self.imagen_actual=self.imagen_normal
           self.rect=self.imagen_actual.get_rect()
           self.rect.left,self.rect.top=(x,y)
+          self.h=round_well(pygame.Surface.get_width(self.imagen_normal)/50)
+          self.v=round_well(pygame.Surface.get_height(self.imagen_normal)/50)
      def update(self,pantalla,cursor):
           if cursor.colliderect(self.rect):
                self.imagen_actual=self.imagen_seleccion
@@ -36,7 +43,15 @@ class Barco(pygame.sprite.Sprite):
      def mover(self,cursor):
           if cursor.colliderect(self.rect):
                pass
-          else: self.rect.left,self.rect.top=pygame.mouse.get_pos()
+          else:
+               self.rect.left,self.rect.top=pygame.mouse.get_pos()
+               if self.rect.left<10:
+                    self.rect.left=10
+               if self.rect.top<100:
+                    self.rect.top=100
+               #if self.rect.left-pygame.Surface.get_width(self.imagen_normal)>570:
+               #if self.rect.top-pygame.Surface.get_height(self.imagen_normal)>460:
+               
      def rotar(self,angulo):
           imagen_actual=pygame.transform.rotate(self.imagen_normal,angulo)
           self.imagen_normal=imagen_actual
@@ -44,3 +59,20 @@ class Barco(pygame.sprite.Sprite):
           self.imagen_actual=imagen_actual
           self.rect=imagen_actual.get_rect()
           self.rect.left,self.rect.top=pygame.mouse.get_pos()
+          self.h=round_well(pygame.Surface.get_width(self.imagen_normal)/50)
+          self.v=round_well(pygame.Surface.get_height(self.imagen_normal)/50)
+     def obtenerposicion(self,dimension,p_inicio,actual):
+          xr,yr=self.rect.left,self.rect.top
+          for i in range(10):
+               for j in range(10):
+                    x=i*dimension+p_inicio[0]
+                    y=j*dimension+p_inicio[1]
+                    if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
+                         actual=[i,j]
+          result=[]
+          result.append(actual)
+          for i in range(0,int(self.h)):
+               for j in range(0,int(self.v)):
+                    result.append([actual[0]+i,actual[1]+j])
+        
+          return result

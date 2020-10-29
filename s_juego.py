@@ -1,5 +1,7 @@
 def juego():
      import pygame
+     import numpy as np
+     import pandas as pd
      import sys
      import funcionesgenerales
      from player import Player
@@ -15,6 +17,9 @@ def juego():
      btn_1v1=pygame.image.load('img/atras.png')
      btn_1v12=pygame.image.load('img/atras2.png')
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
+     btn_confirmar=pygame.image.load('img/btnconfirmarjugada.png')
+     btn_confirmar2=pygame.image.load('img/btnconfirmarjugada2.png')
+     botonconfirmarjugada=funcionesgenerales.Boton(btn_confirmar,btn_confirmar2,600,600)
 
      #objeto barco
      imagenbarco1=pygame.image.load('img/barco31.png')
@@ -43,6 +48,8 @@ def juego():
      #
      n=Network()
      p = n.getP()
+     #mapa
+     df=pd.DataFrame(np.array([[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]]))
      #game loop
      listabarcos=[]
      cuentabarcos=0
@@ -128,6 +135,14 @@ def juego():
                                    barcomoviendo=False
                               else:
                                    barcomoviendo=True
+                    if cursor1.colliderect(botonconfirmarjugada.rect):
+                         if cuentabarcos>0:
+                              pos=listabarcos[cuentabarcos-1].obtenerposicion(54,[10,100],[0,0])
+                              print(pos)
+                              for x in pos:
+                                   df.iloc[x[1]][x[0]]=1
+                         print("DataFrame:")
+                         print(df)
           battleship.fill((50,150,200))
           cursor1.update()
           fondomapai.update(battleship,cursor1)
@@ -137,6 +152,7 @@ def juego():
           crearbarco3.update(battleship,cursor1)
           crearbarco4.update(battleship,cursor1)
           crearbarco5.update(battleship,cursor1)
+          botonconfirmarjugada.update(battleship,cursor1)
           boton1.update(battleship,cursor1)
           for barco in listabarcos:
                barco.update(battleship,cursor1)
