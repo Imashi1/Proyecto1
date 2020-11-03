@@ -80,7 +80,7 @@ class Barco(pygame.sprite.Sprite):
                     if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
                          actual=[i,j]
           result=[]
-          result.append(actual)
+          #result.append(actual)
           for i in range(0,int(self.h)):
                for j in range(0,int(self.v)):
                     result.append([actual[0]+i,actual[1]+j])

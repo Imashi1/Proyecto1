@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 import pandas as pd
+import funcionesgenerales
 class Player():
         def __init__(self,x,y,width,height,color):
                 self.x=x
@@ -29,6 +30,7 @@ class Player():
                 self.update()
         def update(self):
                 self.rect = (self.x,self.y,self.width,self.height)
+                
         def getmyship(self):
                 return self.myship
         def getmyatack(self):
@@ -37,6 +39,8 @@ class Player():
                 self.myship=mapship
         def setmyatack(self,mapatack):
                 self.myatack=mapatack
+
+                
         def getposship(self):
                 return self.posship
         def getposatack(self):
@@ -45,3 +49,5 @@ class Player():
                 self.posship=posship
         def setposatack(self,posatack):
                 self.posatack=posatack
+                
+                

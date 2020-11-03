@@ -59,13 +59,20 @@ def juego():
      #game loop
      listabarcos=[]
      listamisiles=[]
+     listamisilesrival=[]
      cuentabarcos=0
      cuentamisiles=0
      barcomoviendo=False
      misilmoviendo=False
      running_juego=True
+     antpos=[]
      while running_juego:
           p2 = n.send(p)
+          ############
+          if antpos!=p2.getposatack():
+               for pos in p2.getposatack():
+                    listamisilesrival.append(funcionesgenerales.Barco(imagenmisilb,imagenmisilb,54*pos[0]+20,54*pos[1]+110))
+               antpos=p2.getposatack()
           for event in pygame.event.get():
                if event.type==pygame.QUIT:
                     running_juego=False
@@ -167,21 +174,24 @@ def juego():
                               pos=listabarcos[cuentabarcos-1].obtenerposicion(54,[10,100],[0,0])
                               for x in pos:
                                    df.iloc[x[1]][x[0]]='◘'
+                              p.setposship(pos);
                               pos2=listamisiles[cuentamisiles-1].obtenerposicion(54,[590,100],[0,0])
                               for x in pos2:
                                    df2.iloc[x[1]][x[0]]='☼'
+                              p.setposatack(pos2);
                          print("Mi Flota:")
                          print(df)
                          print("--------------------------")
                          print("Mis misiles")
                          print(df2)
                          p.setmyship(df)
-                         p.setmyatack(df2)
+                         p.setmyatack(df2) 
                          print("Flota Rival:")
                          print(p2.getmyship())
                          print("--------------------------")
                          print("misiles Rival")
                          print(p2.getmyatack())
+
           battleship.fill((50,150,200))
           cursor1.update()
           fondomapai.update(battleship,cursor1)
@@ -199,6 +209,8 @@ def juego():
           if barcomoviendo:
                listabarcos[cuentabarcos-1].mover(cursor1,54,[10,100],barcomoviendo)
           for misil in listamisiles:
+               misil.update(battleship,cursor1)
+          for misil in listamisilesrival:
                misil.update(battleship,cursor1)
           if misilmoviendo:
                listamisiles[cuentamisiles-1].mover(cursor1,54,[590,100],misilmoviendo)
