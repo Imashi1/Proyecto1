@@ -12,7 +12,7 @@ def opci():
      base=pygame.image.load('img/basemusica.png')
      scroll=pygame.image.load('img/scroll.png')
      rectscroll=scroll.get_rect()
-     rectscroll.left,rectscroll.top=int(160*pygame.mixer.music.get_volume()+850),60 #(y)=0,5/80(x-850)
+     rectscroll.left,rectscroll.top=int(160*pygame.mixer.music.get_volume()+850),82 #(y)=0,5/80(x-850)
      #imagen botones
      btn_1v1=pygame.image.load('img/atras.png')
      btn_1v12=pygame.image.load('img/atras2.png')
@@ -20,13 +20,11 @@ def opci():
      btnactivarmusica=pygame.image.load('img/sinmusica.png')
      #botones
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
-     btnmusicaon=funcionesgenerales.Boton(btnpararmusica,btnpararmusica,700,50)
-     btnmusicaoff=funcionesgenerales.Boton(btnactivarmusica,btnactivarmusica,900,50) 
+     btnmusicaon=funcionesgenerales.Boton(btnpararmusica,btnpararmusica,650,150)
+     btnmusicaoff=funcionesgenerales.Boton(btnactivarmusica,btnactivarmusica,750,150) 
      #titulos
-     mifuente=pygame.font.SysFont("Italic",96)
+     mifuente=pygame.font.SysFont("Consolas",96)
      titulo_sonido=mifuente.render("sonido",0,(255,255,255))
-     titulo_tamanhomapa=mifuente.render("tamaño",0,(255,255,255))
-     titulo_idioma=mifuente.render("idioma",0,(255,255,255))
      moverscroll=False
      #
      #opc loop
@@ -53,9 +51,7 @@ def opci():
                if cursor1.colliderect(rectscroll)==False:
                          moverscroll=False
           opciones.fill((50,150,200))
-          opciones.blit(titulo_sonido,(20,60))
-          opciones.blit(titulo_tamanhomapa,(20,260))
-          opciones.blit(titulo_idioma,(20,460))
+          opciones.blit(titulo_sonido,(200,120))
           opciones.blit(base,(850,60))
           opciones.blit(scroll,rectscroll)
           cursor1.update()
