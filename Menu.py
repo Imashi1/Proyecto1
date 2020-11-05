@@ -20,8 +20,8 @@ def menup():
      ship1=pygame.image.load('img/ship.png')
      ship2=pygame.image.load('img/n.png')
      #
-     pygame.mixer.music.load('music/music.mp3')
-     pygame.mixer.music.play(-1)
+     haymusica=False
+     posmusica=0
      #
      #imagen de botones
      unov1=pygame.image.load('img/btn1vs1.png')
@@ -43,12 +43,22 @@ def menup():
      
      running_menu=True
      while running_menu:
+          if(pygame.mixer.music.get_busy()==0):
+               if haymusica==True:
+                    pygame.mixer.music.unload()
+               funcionesgenerales.cargarmusica(posmusica)
+               pygame.mixer.music.play(1)
+               if posmusica==2:
+                    posmusica=0
+               else:
+                    posmusica=posmusica+1
+                    
           for event in pygame.event.get():
                if event.type==pygame.QUIT:
                     running_menu=False
                     pygame.quit()
                     sys.exit()
-
+                    
                if event.type==pygame.MOUSEBUTTONDOWN:
                     if cursor1.colliderect(btn1v1.rect):
                          servidor.server()
