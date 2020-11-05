@@ -4,8 +4,8 @@
 def ayud():
      import pygame
      import sys
-     sys.path.insert(0,'../')
      import funcionesgenerales
+     sonidoboton=pygame.mixer.Sound('sound/boton.wav')
      ayu=pygame.display.set_mode((1152,700))
      cursor1=funcionesgenerales.Cursor()
      btn_1v1=pygame.image.load('img/atras.png')
@@ -23,6 +23,7 @@ def ayud():
                     sys.exit()
                if event.type==pygame.MOUSEBUTTONDOWN:
                     if cursor1.colliderect(boton1.rect):
+                         sonidoboton.play()
                          running_ayuda=False
           ayu.fill((50,150,200))
           ayu.blit(titulo_instrucciones,(200,10))

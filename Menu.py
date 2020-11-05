@@ -15,6 +15,9 @@ def menup():
      icon=pygame.image.load('img/icon.png')
      pygame.display.set_icon(icon)
      #
+     sonidoboton=pygame.mixer.Sound('sound/boton.wav')
+     #
+     #
      cursor1=funcionesgenerales.Cursor()
      #el barco del fondo
      ship1=pygame.image.load('img/ship.png')
@@ -61,12 +64,16 @@ def menup():
                     
                if event.type==pygame.MOUSEBUTTONDOWN:
                     if cursor1.colliderect(btn1v1.rect):
+                         sonidoboton.play()
                          servidor.server()
                     if cursor1.colliderect(btnopciones.rect):
+                         sonidoboton.play()
                          s_opciones.opci()
                     if cursor1.colliderect(btnayuda.rect):
+                         sonidoboton.play()
                          s_ayuda.ayud()
                     if cursor1.colliderect(btnsalir.rect):
+                         sonidoboton.play()
                          running_menu=False
                          pygame.quit()
                          sys.exit()

@@ -5,6 +5,7 @@ def opci():
      import pygame
      import sys
      import funcionesgenerales
+     sonidoboton=pygame.mixer.Sound('sound/boton.wav')
      opciones=pygame.display.set_mode((1152,700))
      cursor1=funcionesgenerales.Cursor()
      #scrooll musica
@@ -38,6 +39,7 @@ def opci():
                     sys.exit()
                if event.type==pygame.MOUSEBUTTONDOWN:
                     if cursor1.colliderect(boton1.rect):
+                         sonidoboton.play()
                          running_opc=False
                     if cursor1.colliderect(btnmusicaon.rect):
                          pygame.mixer.music.stop()

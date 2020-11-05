@@ -89,9 +89,9 @@ class Barco(pygame.sprite.Sprite):
      
 def cargarmusica(pos):
      if pos==0:
-          pygame.mixer.music.load('music/music.mp3')
-     elif pos==1:
           pygame.mixer.music.load('music/Luchando.mp3')
+     elif pos==1:
+          pygame.mixer.music.load('music/music.mp3')
      elif pos==2:
           pygame.mixer.music.load('music/Remix.mp3')
           

@@ -8,6 +8,7 @@ def juego():
      from network import Network
      battleship=pygame.display.set_mode((1152,700))
      cursor1=funcionesgenerales.Cursor()
+     sonidoboton=pygame.mixer.Sound('sound/boton.wav')
      #fondo mapas
      mapad=pygame.image.load('img/mapa.png')
      mapai=pygame.image.load('img/mapa.png')
@@ -84,6 +85,7 @@ def juego():
                               listabarcos[cuentabarcos-1].rotar(90)
                if event.type==pygame.MOUSEBUTTONDOWN:
                     if cursor1.colliderect(boton1.rect):
+                         sonidoboton.play()
                          running_juego=False
                if event.type==pygame.MOUSEBUTTONUP:
                     
