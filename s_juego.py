@@ -72,7 +72,10 @@ def juego():
           ############
           if antpos!=p2.getposatack():
                for pos in p2.getposatack():
-                    listamisilesrival.append(funcionesgenerales.Barco(imagenmisilb,imagenmisilb,54*pos[0]+20,54*pos[1]+110))
+                    if p.getmyship().iloc[pos[1]][pos[0]]!='-':
+                         listamisilesrival.append(funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*pos[0]+20,54*pos[1]+110))
+                    else:
+                         listamisilesrival.append(funcionesgenerales.Barco(imagenmisilb,imagenmisilb,54*pos[0]+20,54*pos[1]+110))
                antpos=p2.getposatack()
           for event in pygame.event.get():
                if event.type==pygame.QUIT:

@@ -41,8 +41,9 @@ def opci():
                          running_opc=False
                     if cursor1.colliderect(btnmusicaon.rect):
                          pygame.mixer.music.stop()
+                         infomenu[1]=0
                     if cursor1.colliderect(btnmusicaoff.rect):
-                         pygame.mixer.music.play(-1)   
+                         pygame.mixer.music.play(1)   
                     if cursor1.colliderect(rectscroll):
                          if moverscroll==False:
                               moverscroll=True
@@ -72,4 +73,4 @@ def opci():
           boton1.update(opciones,cursor1)
           #
           pygame.display.update()
-               
+          

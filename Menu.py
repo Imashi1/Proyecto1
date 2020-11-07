@@ -43,7 +43,6 @@ def menup():
      btnopciones=funcionesgenerales.Boton(opciones,opciones2,310,580)
      btnayuda=funcionesgenerales.Boton(ayuda,ayuda2,590,580)
      btnsalir=funcionesgenerales.Boton(salir,salir2,870,580)
-     
      running_menu=True
      while running_menu:
           if(pygame.mixer.music.get_busy()==0):
@@ -54,8 +53,7 @@ def menup():
                if posmusica==2:
                     posmusica=0
                else:
-                    posmusica=posmusica+1
-                    
+                    posmusica=posmusica+1                    
           for event in pygame.event.get():
                if event.type==pygame.QUIT:
                     running_menu=False
