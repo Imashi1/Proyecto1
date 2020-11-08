@@ -4,19 +4,24 @@ from player import Player
 import pickle
 server = "192.168.8.100"
 port = 5555
+#se crea un socket para mantener conectado el servidor con los clientes
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+#se intenta conectar el servidor con algun cliente
 try:
     s.bind((server,port))
 except socket.error as e:
     str(e)
+#se restringe los clientes activos a solo 2
 s.listen(2)
 print("waiting for a connection, server started")
-#player1 = [Player(0,0,50,50,(255,0,0))]
-#player2 = [Player(100,100,50,50,(0,0,255))]
-#players = player1 + player2
-#players-= player
-#currentplayer-=1
+                                                                #player1 = [Player(0,0,50,50,(255,0,0))]
+                                                                #player2 = [Player(100,100,50,50,(0,0,255))]
+                                                                #players = player1 + player2
+                                                                #players-= player
+                                                                #currentplayer-=1
+#se inicializan 2 jugadores para realizar el juego
 players=[Player(0,0,50,50,(255,0,0)),Player(100,100,50,50,(0,0,255))]
+#se define un hilo de clientes para recibir y enviar informacion de uno a otro
 def threaded_client(conn, player):
     conn.send(pickle.dumps(players[player]))
     reply = ""
@@ -39,9 +44,12 @@ def threaded_client(conn, player):
             break
     print("Lost connection")
     conn.close()
+#se inicializa un contador numero de jugador
 currentPlayer = 0
+#se mantiene en espera para intentar conectar algun jugador
 while True:
     conn,addr = s.accept()
     print("connected to:",addr)
     start_new_thread(threaded_client,(conn,currentPlayer))
+    #se incrementa el numero de jugador
     currentPlayer +=1
