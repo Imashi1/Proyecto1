@@ -45,7 +45,6 @@ def opci():
                     #detenemos la musica actual
                     if cursor1.colliderect(btnmusicaon.rect):
                          pygame.mixer.music.stop()
-                         infomenu[1]=0
                     #iniciamos la musica
                     if cursor1.colliderect(btnmusicaoff.rect):
                          pygame.mixer.music.play(1)

@@ -2,7 +2,7 @@ import socket
 from _thread import *
 from player import Player
 import pickle
-server = "192.168.8.100"
+server ='localhost'
 port = 5555
 #se crea un socket para mantener conectado el servidor con los clientes
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)

@@ -6,7 +6,7 @@ class Network:
         def __init__(self):
                 self.client=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
                 #ip del servidor
-                self.server="192.168.8.100"
+                self.server='localhost'
                 self.port=5555
                 self.addr=(self.server,self.port)
                 #inicializa p con la funcion connect() para recibir data

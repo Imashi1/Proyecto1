@@ -12,6 +12,7 @@ def juego():
      cursor1=funcionesgenerales.Cursor()
      #carga sonido para el boton
      sonidoboton=pygame.mixer.Sound('sound/boton.wav')
+     sonidoexplosion=pygame.mixer.Sound('sound/expl.wav')
      #se carga el fondo de los mapas
      mapad=pygame.image.load('img/mapa.png')
      mapai=pygame.image.load('img/mapa.png')
@@ -85,6 +86,7 @@ def juego():
                for pos in p2.getposatack():
                     if p.getmyship().iloc[pos[1]][pos[0]]!='-':
                          listamisilesrival.append(funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*pos[0]+20,54*pos[1]+110))
+                         sonidoexplosion.play()
                     else:
                          listamisilesrival.append(funcionesgenerales.Barco(imagenmisilb,imagenmisilb,54*pos[0]+20,54*pos[1]+110))
                antpos=p2.getposatack()
@@ -199,6 +201,11 @@ def juego():
                               for x in pos2:#se marcan posiciones ocupadas al mapa de mis ataques
                                    df2.iloc[x[1]][x[0]]='☼'
                               p.setposatack(pos2);
+                              for pos in pos2:
+                                   if p2.getmyship().iloc[pos[1]][pos[0]]!='-':                                          
+                                        listamisiles[cuentamisiles-1]=funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*pos[0]+600,54*pos[1]+110)
+                                        sonidoexplosion.play()
+                        
                          print("Mi Flota:")
                          print(df)
                          print("--------------------------")
