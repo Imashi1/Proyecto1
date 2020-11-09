@@ -5,7 +5,7 @@ import funcionesgenerales
 #clase player, sirve para cruzar la informacion de lo que el jugador
 #esta haciendo, y ademas facilitar el envio de data al servidor
 class Player():
-        def __init__(self,x,y,width,height,color):
+        def __init__(self,x,y,width,height,color,turno):
                 self.x=x        #NA
                 self.y=y        #NA
                 self.width=width #NA
@@ -19,6 +19,13 @@ class Player():
                 #crea una lista de la(s) ultima(s) posiciones nuevas en el mapa
                 self.posship=[]
                 self.posatack=[]
+                self.nrobarcos=0
+                self.nromisiles=0
+                self.miturno=turno
+        def getmiturno(self):
+                return self.miturno
+        def setmiturno(self,valor):
+                self.miturno=valor
         def draw(self,win): #NA
                 pygame.draw.rect(win,self.color,self.rect)
         def move(self):         #NA
@@ -59,5 +66,13 @@ class Player():
         #actualiza la posicion del ataque reciente
         def setposatack(self,posatack):
                 self.posatack=posatack
+        def getnrobarcos(self):
+                return self.nrobarcos
+        def increnrobarcos(self):
+                self.nrobarcos=self.nrobarcos+1
+        def getnromisiles(self):
+                return self.nromisiles
+        def increnromisiles(self):
+                self.nromisiles=self.nromisiles+1
                 
                 

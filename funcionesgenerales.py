@@ -42,6 +42,7 @@ class Barco(pygame.sprite.Sprite):
           self.rect.left,self.rect.top=(x,y)
           self.h=round_well(pygame.Surface.get_width(self.imagen_normal)/50)
           self.v=round_well(pygame.Surface.get_height(self.imagen_normal)/50)
+          self.confirmado=False
      #Detecta las colisiones con un rectangulo, y muestra el barco en una pantalla
      def update(self,pantalla,cursor):
           if cursor.colliderect(self.rect):
@@ -103,6 +104,10 @@ class Barco(pygame.sprite.Sprite):
                     result.append([actual[0]+i,actual[1]+j])
         
           return result
+     def getconfirmado(self):
+          return self.confirmado
+     def setconfirmado(self,valor):
+          self.confirmado=valor
 #permite cargar la musica determianda por una posicion
 def cargarmusica(pos):
      if pos==0:

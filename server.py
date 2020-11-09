@@ -20,7 +20,7 @@ print("waiting for a connection, server started")
                                                                 #players-= player
                                                                 #currentplayer-=1
 #se inicializan 2 jugadores para realizar el juego
-players=[Player(0,0,50,50,(255,0,0)),Player(100,100,50,50,(0,0,255))]
+players=[Player(0,0,50,50,(255,0,0),True),Player(100,100,50,50,(0,0,255),False)]
 #se define un hilo de clientes para recibir y enviar informacion de uno a otro
 def threaded_client(conn, player):
     conn.send(pickle.dumps(players[player]))

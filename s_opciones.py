@@ -13,7 +13,7 @@ def opci():
      base=pygame.image.load('img/basemusica.png')
      scroll=pygame.image.load('img/scroll.png')
      rectscroll=scroll.get_rect()
-     rectscroll.left,rectscroll.top=int(160*pygame.mixer.music.get_volume()+850),82 #(y)=0,5/80(x-850)
+     rectscroll.left,rectscroll.top=int(160*pygame.mixer.music.get_volume()+850),100 #(y)=0,5/80(x-850)
      #carga de imagenes boton play stop
      btn_1v1=pygame.image.load('img/atras.png')
      btn_1v12=pygame.image.load('img/atras2.png')
@@ -59,7 +59,7 @@ def opci():
           #define el color de fondo de la pantalla y se agregan textos, scroll
           opciones.fill((50,150,200))
           opciones.blit(titulo_sonido,(200,120))
-          opciones.blit(base,(850,60))
+          opciones.blit(base,(850,105))
           opciones.blit(scroll,rectscroll)
           cursor1.update()
           #permite y restringe el movimiento del scroll
