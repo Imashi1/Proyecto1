@@ -22,10 +22,15 @@ class Player():
                 self.nrobarcos=0
                 self.nromisiles=0
                 self.miturno=turno
+                self.confirmacion=False
+        def getconfirmacion(self):
+                return self.confirmacion
+        def setconfirmacion(self,v):
+                self.confirmacion=v
         def getmiturno(self):
                 return self.miturno
-        def setmiturno(self,valor):
-                self.miturno=valor
+        def setmiturno(self,v):
+                self.miturno=v
         def draw(self,win): #NA
                 pygame.draw.rect(win,self.color,self.rect)
         def move(self):         #NA

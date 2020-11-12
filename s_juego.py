@@ -25,7 +25,10 @@ def juego():
      btn_confirmar=pygame.image.load('img/btnconfirmarjugada.png')
      btn_confirmar2=pygame.image.load('img/btnconfirmarjugada2.png')
      botonconfirmarjugada=funcionesgenerales.Boton(btn_confirmar,btn_confirmar2,500,655)
-
+     #texto es mi turno, esperando jugada...
+     mifuente=pygame.font.SysFont("Consolas",15)
+     miturno=mifuente.render("es mi turno",0,(255,255,255))
+     esperando=mifuente.render("esperando...",0,(255,255,255))
      #carga de imagenes de los barcos y misil a utilizar
      imagenbarco1=pygame.image.load('img/barco31.png')
      imagenbarco2=pygame.image.load('img/barco32.png')
@@ -77,9 +80,17 @@ def juego():
      #lista para agregar la anterior posicion
      antpos=[]
      running_juego=True
+     p2=n.send(p)
      while running_juego:
           #se crea un segundo jugador "del otro lado" y se mantiene conectado
-          p2 = n.send(p)
+          c = n.send(p)
+          if c.getconfirmacion()==True:
+               p2=c
+               if p2.getmiturno()==False:
+                    p.setmiturno(True)
+                    p.setconfirmacion(False)
+          else:
+               p.setconfirmacion(False)
           #muestra el ataque del jugador "del otro lado" en el jugador "de este codigo"
           #ademas difiere si el misil coliciono con el barco del jugador "de este codigo"
           if antpos!=p2.getposatack():
@@ -207,30 +218,33 @@ def juego():
                                         sonidoexplosion.play()
                               listabarcos[cuentabarcos-1].setconfirmado(True)
                               listamisiles[cuentamisiles-1].setconfirmado(True)
-                         print("Mi Flota:")
-                         print(df)
-                         print("--------------------------")
-                         print("Mis misiles")
-                         print(df2)
+                         #print("Mi Flota:")
+                         #print(df)
+                         #print("--------------------------")
+                         #print("Mis misiles")
+                         #print(df2)
                          p.setmyship(df)     #se actualiza mapa mis barcos, al jugador "de este codigo"
                          p.setmyatack(df2)   #se actualiza mapa mis ataques, al juagor "de este codigo"
-                         print("Flota Rival:")
-                         print(p2.getmyship())
-                         print("--------------------------")
-                         print("misiles Rival")
-                         print(p2.getmyatack())
+                         #print("Flota Rival:")
+                         #print(p2.getmyship())
+                         #print("--------------------------")
+                         #print("misiles Rival")
+                         #print(p2.getmyatack())
                          p.increnrobarcos()
                          p.increnromisiles()
-                         p2.setmiturno(True)
                          p.setmiturno(False)
-                         print(p.getmiturno())
-                         print(p2.getmiturno())
+                         p.setconfirmacion(True)
           #se pone color de fondo de la pantalla
           battleship.fill((50,150,200))
           cursor1.update()
           #se muestran los mapas del juego
           fondomapai.update(battleship,cursor1)
           fondomapad.update(battleship,cursor1)
+          #texto
+          if p.getmiturno()==True and p.getmiturno()!=p2.getmiturno():
+               battleship.blit(miturno,(900,30))
+          else:
+               battleship.blit(esperando,(900,30))
           #se muestran los botones de seleccionar barco o misil
           crearbarco1.update(battleship,cursor1)
           crearbarco2.update(battleship,cursor1)

@@ -1,5 +1,7 @@
 import socket
 import pickle
+from player import Player
+
 #clase network, fundamental para facilitar el envio de informacion de
 #la funcion del cliente, al servidor y al revez
 class Network:
