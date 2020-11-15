@@ -2,7 +2,7 @@
 
 #server loop
 
-def server():
+def server(adminmusic):
      import pygame
      import sys
      import funcionesgenerales
@@ -31,9 +31,11 @@ def server():
      #se inicializan estados de estar escribiendo
      escribiendo=False
      escribiendo2=False
+     adminmusic.reproducir()
      #se inicializa el estado corriendo registro servidor
      running_server=True
      while running_server:
+          adminmusic.circular()
           for event in pygame.event.get():
                #finaliza el programa del juego
                if event.type==pygame.QUIT:
@@ -68,13 +70,13 @@ def server():
                     if cursor1.colliderect(serv_rect) and cursor1.colliderect(a2)==False:
                          escribiendo2=False
 
-               #permite escribir en el primer campo de texto
+               #permite escribir en el primer campo de texto  ###################################################
                if escribiendo==True:
                     if event.type == pygame.KEYDOWN:
                          if event.key==pygame.K_BACKSPACE:
                               user_text=user_text[:-1]
                          else:
-                              if len(user_text)<=12:
+                              if len(user_text)<=11:
                                    user_text+=event.unicode
                #permite escribir en el segundo campo de texto
                if escribiendo2==True:
@@ -82,8 +84,8 @@ def server():
                          if event.key==pygame.K_BACKSPACE:
                               user_text2=user_text2[:-1]
                          else:
-                              if len(user_text2)<=12:
-                                   user_text2+=event.unicode
+                              if len(user_text2)<=11:
+                                   user_text2+=event.unicode  ##########################################
           #define el color de fondo de la pantalla
           serv.fill((50,150,200))
           cursor1.update()
@@ -104,5 +106,6 @@ def server():
           btnjugar.update(serv,cursor1)
           #carga los elementos del update
           pygame.display.update()
-      
+     adminmusic.saliendopantalla()
+     return adminmusic
                

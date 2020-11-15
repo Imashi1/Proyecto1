@@ -42,21 +42,13 @@ def menup():
      btnopciones=funcionesgenerales.Boton(opciones,opciones2,310,580)
      btnayuda=funcionesgenerales.Boton(ayuda,ayuda2,590,580)
      btnsalir=funcionesgenerales.Boton(salir,salir2,870,580)
+     #
+     adminmusic=funcionesgenerales.Soundtrack()
+     adminmusic.reproducir()
      #inicializando el estado de correr el juego y asi detectar cuando salir del bucle del juego
      running_menu=True
      while running_menu:
-          #condiciones que hacen posible la eleccion de una musica siguiente, primero cargandola y luego iniciarla
-          if(pygame.mixer.music.get_busy()==0):
-               #descarga la musica anterior para que no se llene la memoria
-               if haymusica==True:
-                    pygame.mixer.music.unload()
-               funcionesgenerales.cargarmusica(posmusica)
-               pygame.mixer.music.play(1)
-               #evita que la posicion de la musica se salga del rango actual
-               if posmusica==2:
-                    posmusica=0
-               else:
-                    posmusica=posmusica+1
+          adminmusic.circular()
           #bucle para manejar los eventos dados en el juego
           for event in pygame.event.get():
                #finaliza la pantalla del menu y ademas la pantalla del juego
@@ -69,15 +61,21 @@ def menup():
                     #corre la pantalla del servidor para ingresar datos
                     if cursor1.colliderect(btn1v1.rect):
                          sonidoboton.play()
-                         servidor.server()
+                         adminmusic=servidor.server(adminmusic)
+                         adminmusic.continuar()
+                         adminmusic.reproducir()
                     #corre la pantalla opciones
                     if cursor1.colliderect(btnopciones.rect):
                          sonidoboton.play()
-                         s_opciones.opci()
+                         adminmusic=s_opciones.opci(adminmusic)
+                         adminmusic.continuar()
+                         adminmusic.reproducir()
                     #corre la pantalla ayuda
                     if cursor1.colliderect(btnayuda.rect):
                          sonidoboton.play()
-                         s_ayuda.ayud()
+                         adminmusic=s_ayuda.ayud(adminmusic)
+                         adminmusic.continuar()
+                         adminmusic.reproducir()
                     #finaliza la pantalla del menu y ademas la pantalla del juego
                     if cursor1.colliderect(btnsalir.rect):
                          sonidoboton.play()

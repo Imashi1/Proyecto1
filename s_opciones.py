@@ -1,7 +1,7 @@
 #Libraries
 
 #opciones loop
-def opci():
+def opci(adminmusic):
      import pygame
      import sys
      import funcionesgenerales
@@ -28,9 +28,11 @@ def opci():
      titulo_sonido=mifuente.render("sonido",0,(255,255,255))
      #se inicializa un estado scroll moviendo
      moverscroll=False
+     adminmusic.reproducir()
      #se inicializa el estado corriendo pantalla
      running_opc=True
      while running_opc:
+          adminmusic.circular()
           for event in pygame.event.get():
                #finaliza el programa del juego
                if event.type==pygame.QUIT:
@@ -44,10 +46,11 @@ def opci():
                          running_opc=False
                     #detenemos la musica actual
                     if cursor1.colliderect(btnmusicaon.rect):
-                         pygame.mixer.music.stop()
+                         adminmusic.sdetener()
                     #iniciamos la musica
                     if cursor1.colliderect(btnmusicaoff.rect):
-                         pygame.mixer.music.play(1)
+                         adminmusic.activar()
+                         adminmusic.reproducir()
                     #modificamos el estado del scrollmoviendo
                     if cursor1.colliderect(rectscroll):
                          if moverscroll==False:
@@ -82,4 +85,5 @@ def opci():
           boton1.update(opciones,cursor1)
           #carga los elementos del update
           pygame.display.update()
-          
+     adminmusic.saliendopantalla()
+     return adminmusic

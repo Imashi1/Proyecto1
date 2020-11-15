@@ -109,11 +109,53 @@ class Barco(pygame.sprite.Sprite):
      def setconfirmado(self,valor):
           self.confirmado=valor
 #permite cargar la musica determianda por una posicion
-def cargarmusica(pos):
-     if pos==0:
-          pygame.mixer.music.load('music/Luchando.mp3')
-     elif pos==1:
-          pygame.mixer.music.load('music/music.mp3')
-     elif pos==2:
-          pygame.mixer.music.load('music/Remix.mp3')
-          
+class Soundtrack():
+     def __init__(self):
+          self.lista=['music/music.mp3','music/music2.mp3','music/music3.mp3']
+          self.estado=pygame.mixer.music.get_busy()
+          self.volumen=pygame.mixer.music.get_volume()
+          self.circulo=True
+          self.nromusica=3
+          self.nroactual=1
+          self.posicion=0
+          self.detener=False
+     def anhadir(self,musica):
+          self.lista.append(musica)
+          self.nromusica=self.nromusica+1
+     def continuar(self):
+          if self.detener==False:
+               pygame.mixer.music.unpause()
+     def reproducir(self):
+          if self.detener==False and pygame.mixer.music.get_busy()==False:
+               pygame.mixer.music.load(self.lista[self.nroactual-1])
+               pygame.mixer.music.play()
+               pygame.mixer.music.set_pos(self.posicion)
+               self.posicion=0
+     def circular(self):
+          if self.detener==False:
+               self.estado=pygame.mixer.music.get_busy()
+               if self.estado==False:
+                    pygame.mixer.music.unload()
+                    if self.nroactual==self.nromusica:
+                         self.nroactual=1
+                    else:
+                         self.nroactual=self.nroactual+1
+                    pygame.mixer.music.load(self.lista[self.nroactual-1])
+                    pygame.mixer.music.play()
+     def sdetener(self):
+          self.detener=True
+          pygame.mixer.music.stop()
+     def activar(self):
+          self.detener=False
+     def saliendopantalla(self):
+          self.volumen=pygame.mixer.music.get_volume()
+          self.posicion=pygame.mixer.music.get_pos()
+          pygame.mixer.music.pause()
+class Animacion():
+     def __init__(self,imagenes,posicion,pantalla):
+          self.lista=imagenes
+          self.pos=posicion
+          self.pantalla=patalla
+     def iniciar(self):
+          for i in lista:
+               self.pantalla.blit(imagenes[i],pos)

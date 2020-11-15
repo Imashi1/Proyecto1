@@ -1,7 +1,7 @@
 #Libraries
 
 #server loop
-def ayud():
+def ayud(adminmusic):
      import pygame
      import sys
      import funcionesgenerales
@@ -20,9 +20,11 @@ def ayud():
      int2=pygame.image.load('img/int2.png')
      #se carga la fuente a utilizar
      mifuente=pygame.font.SysFont("Consolas",40)
+     adminmusic.reproducir()
      #se inicializa el estado de "corriendo la pantalla ayuda"
      running_ayuda=True
      while running_ayuda:
+          adminmusic.circular()
           for event in pygame.event.get():
                #se termina la pantalla ayuda y finaliza el programa
                if event.type==pygame.QUIT:
@@ -44,4 +46,5 @@ def ayud():
           boton1.update(ayu,cursor1)
           #carga los elementos del update
           pygame.display.update()
-               
+     adminmusic.saliendopantalla()
+     return adminmusic  
