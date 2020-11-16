@@ -29,6 +29,14 @@ class Boton(pygame.sprite.Sprite):
           else: self.imagen_actual=self.imagen_normal
 
           pantalla.blit(self.imagen_actual,self.rect)
+     def update2(self,pantalla,adminmusic):
+          if adminmusic.estadodetener()==True:
+               self.imagen_actual=self.imagen_normal
+          elif adminmusic.getpausa()==True:
+               self.imagen_actual=self.imagen_normal
+          else:
+               self.imagen_actual=self.imagen_seleccion
+          pantalla.blit(self.imagen_actual,self.rect)
 #--------------------------------------------------------
 #Clase barco, posee diversas funciones como: crear, mover, obtener posicion en un tablero, siendo un objeto de suma importancia
 class Barco(pygame.sprite.Sprite):
@@ -118,6 +126,7 @@ class Soundtrack():
           self.nromusica=3
           self.nroactual=1
           self.posicion=0
+          self.pausar=False
           self.detener=False
      def anhadir(self,musica):
           self.lista.append(musica)
@@ -132,7 +141,7 @@ class Soundtrack():
                pygame.mixer.music.set_pos(self.posicion)
                self.posicion=0
      def circular(self):
-          if self.detener==False:
+          if self.detener==False and self.pausar==False:
                self.estado=pygame.mixer.music.get_busy()
                if self.estado==False:
                     pygame.mixer.music.unload()
@@ -148,9 +157,33 @@ class Soundtrack():
      def activar(self):
           self.detener=False
      def saliendopantalla(self):
+          if self.pausar==True:
+               self.sdetener()
           self.volumen=pygame.mixer.music.get_volume()
           self.posicion=pygame.mixer.music.get_pos()
           pygame.mixer.music.pause()
+     def estadodetener(self):
+          return self.detener
+     def getpausa(self):
+          return self.pausar
+     def setpausa(self,v):
+          self.pausar=v
+     def sgteder(self):
+          if self.nroactual!=self.nromusica:
+               self.nroactual=self.nroactual+1
+          else:
+               self.nroactual=1
+          self.sdetener()
+          self.activar()
+          self.reproducir()
+     def sgteizq(self):
+          if self.nroactual!=1:
+               self.nroactual=self.nroactual-1
+          else:
+               self.nroactual=self.nromusica
+          self.sdetener()
+          self.activar()
+          self.reproducir()
 class Animacion():
      def __init__(self,imagenes,posicion,pantalla):
           self.lista=imagenes
@@ -159,3 +192,12 @@ class Animacion():
      def iniciar(self):
           for i in lista:
                self.pantalla.blit(imagenes[i],pos)
+#Clase boton play/pause, el boton posee 2 imagenes diferentes para dar un efecto
+class Botonsino(pygame.sprite.Sprite):
+     #Se usa get_rect para obtener un rectangulo colisionable y relizar la funcion de un boton
+     def __init__(self,imagen1,imagen2,x=200,y=200):
+          self.imagen_play=imagen1
+          self.imagen_pausa=imagen2
+          self.rect=self.imagen_play.get_rect()
+          self.rect.left,self.rect.top=(x,y)
+          self.estado=False

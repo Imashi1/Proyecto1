@@ -4,6 +4,7 @@
 def opci(adminmusic):
      import pygame
      import sys
+     import os
      import funcionesgenerales
      sonidoboton=pygame.mixer.Sound('sound/boton.wav')
      #se define la pantalla de opciones
@@ -19,10 +20,15 @@ def opci(adminmusic):
      btn_1v12=pygame.image.load('img/atras2.png')
      btnpararmusica=pygame.image.load('img/conmusica.png')
      btnactivarmusica=pygame.image.load('img/sinmusica.png')
+     btnpausar=pygame.image.load('img/pausar.png')
+     btnder=pygame.image.load('img/sgteder.png')
+     btnizq=pygame.image.load('img/sgteizq.png')
      #creacion de botones "regresar" play stop musica
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
-     btnmusicaon=funcionesgenerales.Boton(btnpararmusica,btnpararmusica,650,150)
-     btnmusicaoff=funcionesgenerales.Boton(btnactivarmusica,btnactivarmusica,750,150) 
+     btnmusicaon=funcionesgenerales.Boton(btnpararmusica,btnpararmusica,780,85)
+     btnmusicaoff=funcionesgenerales.Boton(btnactivarmusica,btnpausar,1050,85)
+     btnsgteder=funcionesgenerales.Boton(btnder,btnder,780,150)
+     btnsgteizq=funcionesgenerales.Boton(btnizq,btnizq,1058,150)
      #se carga un fuente para el texto "sonido"
      mifuente=pygame.font.SysFont("Consolas",96)
      titulo_sonido=mifuente.render("sonido",0,(255,255,255))
@@ -40,6 +46,12 @@ def opci(adminmusic):
                     pygame.quit()
                     sys.exit()
                if event.type==pygame.MOUSEBUTTONDOWN:
+                    print(os.listdir("music"))
+                    #
+                    if cursor1.colliderect(btnsgteder.rect):
+                         adminmusic.sgteder()
+                    if cursor1.colliderect(btnsgteizq.rect):
+                         adminmusic.sgteizq()
                     #retrocedemos a la pantalla del menu
                     if cursor1.colliderect(boton1.rect):
                          sonidoboton.play()
@@ -49,16 +61,25 @@ def opci(adminmusic):
                          adminmusic.sdetener()
                     #iniciamos la musica
                     if cursor1.colliderect(btnmusicaoff.rect):
-                         adminmusic.activar()
-                         adminmusic.reproducir()
+                         if adminmusic.estadodetener()==True:
+                              adminmusic.activar()
+                              adminmusic.setpausa(False)
+                              adminmusic.reproducir()
+                         elif adminmusic.getpausa()==True:
+                              pygame.mixer.music.unpause()
+                              adminmusic.setpausa(False)
+                         else:
+                              pygame.mixer.music.pause()
+                              adminmusic.setpausa(True)
                     #modificamos el estado del scrollmoviendo
                     if cursor1.colliderect(rectscroll):
                          if moverscroll==False:
                               moverscroll=True
                          else:
                               moverscroll=False
-               if cursor1.colliderect(rectscroll)==False:
+                    if cursor1.colliderect(rectscroll)==False:
                          moverscroll=False
+                         
           #define el color de fondo de la pantalla y se agregan textos, scroll
           opciones.fill((50,150,200))
           opciones.blit(titulo_sonido,(200,120))
@@ -80,7 +101,9 @@ def opci(adminmusic):
                     pygame.mixer.music.set_volume(1)
           #se muestran los botones play stop
           btnmusicaon.update(opciones,cursor1)
-          btnmusicaoff.update(opciones,cursor1)
+          btnsgteder.update(opciones,cursor1)
+          btnsgteizq.update(opciones,cursor1)
+          btnmusicaoff.update2(opciones,adminmusic)
           #se muestra el boton "regresar"
           boton1.update(opciones,cursor1)
           #carga los elementos del update
