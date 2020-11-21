@@ -4,18 +4,18 @@ import sys
 import numpy as np
 import pandas as pd
 def round_well(num):
-     """Funcion que: Recibe un numero decimal, Retorna el numero redondeado """
+     """Funcion que: recibe un numero decimal, Retorna el numero redondeado """
      return Decimal(num).quantize(0,ROUND_HALF_UP)
 class Cursor(pygame.Rect):
      """Clase cursor: Permite la colision del cursor con un rectangulo x """
      def __init__(self):
-          """Funcion que: Asigna al cursor, un rectangulo de tamaño de 1x1 pixel """
+          """Funcion que: asigna al cursor, un rectangulo de tamaño de 1x1 pixel """
           pygame.Rect.__init__(self,0,0,1,1)
      def update(self):
-          """Funcion que: Obtiene las coordenadas del mouse"""
+          """Funcion que: obtiene las coordenadas del mouse"""
           self.left,self.top=pygame.mouse.get_pos()
 class Boton(pygame.sprite.Sprite):
-     """Clase boton: diseña un rectangulo, donde se puede colocar imagenes de fondo, y realizar algunos efectos de seleccion con la colision del cursor"""
+     """Clase boton: Diseña un rectangulo, donde se puede colocar imagenes de fondo, y realizar algunos efectos de seleccion con la colision del cursor"""
      def __init__(self,imagen1,imagen2,x=200,y=200):
           """Funcion que: recibe 2 imagenes para imagen normal y imagen seleccion, inicializa un rectangulo para que sea colisionable"""
           self.imagen_normal=imagen1
@@ -24,14 +24,14 @@ class Boton(pygame.sprite.Sprite):
           self.rect=self.imagen_actual.get_rect()
           self.rect.left,self.rect.top=(x,y)
      def update(self,pantalla,cursor):
-          """Funcion que: Muestra el boton, Produce el intercambio de imagenes del boton al colisionar con el mouse"""
+          """Funcion que: muestra el boton, Produce el intercambio de imagenes del boton al colisionar con el mouse"""
           if cursor.colliderect(self.rect):
                self.imagen_actual=self.imagen_seleccion
           else: self.imagen_actual=self.imagen_normal
 
           pantalla.blit(self.imagen_actual,self.rect)
      def update2(self,pantalla,adminmusic):
-          """Funcion que: Muestra el boton, Produce el intercambio de imagenes del boton al colisionar y presionar con el mouse"""
+          """Funcion que: muestra el boton, Produce el intercambio de imagenes del boton al colisionar y presionar con el mouse"""
           if adminmusic.estadodetener()==True:
                self.imagen_actual=self.imagen_normal
           elif adminmusic.getpausa()==True:
@@ -40,7 +40,7 @@ class Boton(pygame.sprite.Sprite):
                self.imagen_actual=self.imagen_seleccion
           pantalla.blit(self.imagen_actual,self.rect)
 class Barco(pygame.sprite.Sprite):
-     """Clase barco: permite el manejo de un barco o misil, por medio del tablero"""
+     """Clase barco: Permite el manejo de un barco o misil, por medio del tablero"""
      def __init__(self,imagen1,imagen2,x=200,y=200):
           """Funcion que: crea un rectangulo con las dimensiones de la imagen"""
           self.imagen_normal=imagen1
@@ -52,14 +52,14 @@ class Barco(pygame.sprite.Sprite):
           self.v=round_well(pygame.Surface.get_height(self.imagen_normal)/50)
           self.confirmado=False
      def update(self,pantalla,cursor):
-          """Funcion que: Muestra el objeto, Permite detectar la colision del objeto, y mostrarlo en la pantalla"""
+          """Funcion que: muestra el objeto, Permite detectar la colision del objeto, y mostrarlo en la pantalla"""
           if cursor.colliderect(self.rect):
                self.imagen_actual=self.imagen_seleccion
           else: self.imagen_actual=self.imagen_normal
 
           pantalla.blit(self.imagen_actual,self.rect)
      def mover(self,cursor,dimension,p_inicio,barcomoviendo):
-          """Funcion que: Permite el movimiento del objeto con el mouse, denjandolo en una posicion valida del tablero (restringe el movimiento en el tablero) con ayuda de bucles"""
+          """Funcion que: permite el movimiento del objeto con el mouse, denjandolo en una posicion valida del tablero (restringe el movimiento en el tablero) con ayuda de bucles"""
           if cursor.colliderect(self.rect):
                pass
           else:
@@ -78,7 +78,7 @@ class Barco(pygame.sprite.Sprite):
                               if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
                                    self.rect.left,self.rect.top=x+10,y+10
      def rotar(self,angulo):
-          """Funcion que: Permite la rotacion del objeto en 90° de su posicion actual"""
+          """Funcion que: permite la rotacion del objeto en 90° de su posicion actual"""
           imagen_actual=pygame.transform.rotate(self.imagen_normal,angulo)
           self.imagen_normal=imagen_actual
           self.imagen_seleccion=pygame.transform.rotate(self.imagen_seleccion,angulo)
@@ -104,7 +104,7 @@ class Barco(pygame.sprite.Sprite):
         
           return result
      def getconfirmado(self):
-          """Funcion que: Retorna el estado sobre si se confirmo la posicion del objeto, retorna True si esta confirmada y False si no"""
+          """Funcion que: retorna el estado sobre si se confirmo la posicion del objeto, retorna True si esta confirmada y False si no"""
           return self.confirmado
      def setconfirmado(self,valor):
           """Funcion que: permite actualizar el estado de confirmacion de la posicion del objeto"""
@@ -153,7 +153,7 @@ class Soundtrack():
           self.detener=True
           pygame.mixer.music.stop()
      def activar(self):
-          """Funcion que: Pone en False el estado de detener"""
+          """Funcion que: pone en False el estado de detener"""
           self.detener=False
      def saliendopantalla(self):
           """Funcion que: permite la continuacion de la musica de una pantalla a una anterior"""
@@ -190,7 +190,9 @@ class Soundtrack():
           self.activar()
           self.reproducir()
 class Animacion():
+     """Clase Animacion: usa frames para crear efecto gif"""
      def __init__(self,listaimagenes,posicion):
+          """Funcion que: recibe una lista de los frames, y la posicion en la pantalla"""
           super().__init__()
           self.iniciar=False
           self.lista=listaimagenes
@@ -199,8 +201,10 @@ class Animacion():
           self.rect=self.image.get_rect()
           self.rect.topleft=[posicion[0],posicion[1]]
      def iniciargif(self):
+          """Funcion que: activa la animacion"""
           self.iniciar=True
      def update(self,velocidad):
+          """Funcion que: actualiza el frame hasta recorrer toda la lista"""
           if self.iniciar==True:
                self.contador+=velocidad
                if int(self.contador)>=len(self.lista):

@@ -1,3 +1,4 @@
+
 def server(adminmusic):
      """Pantalla registro servidor: Recibe el administrador de la musica para que se mantenga funcionando, y además lo retorna"""
      import pygame

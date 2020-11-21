@@ -5,6 +5,18 @@ import funcionesgenerales
 import pygame
 import sys
 pygame.init()
+def ira1vs1(adminmusic):
+     """Funcion que: corre la pantalla del servidor para ingresar datos, retorna el adminmusic para controlar la musica"""
+     return servidor.server(adminmusic)
+def iraopciones(adminmusic):
+     """Funcion que: corre la pantalla opciones, retorna adminmusic para controlar la musica"""
+     return s_opciones.opci(adminmusic)
+def iraayuda(adminmusic):
+     """Funcion que: corre la pantalla ayuda, retorna adminmusic para controlar la musica"""
+     return s_ayuda.ayud(adminmusic)
+def saliendo():
+     """Funcion que: finaliza la pantalla del menu y ademas la pantalla del juego"""
+     return False
 def menup():
      """Pantalla principal del juego: 1152X700 pixeles, con 4 botones, 1VS1 OPCIONES AYUDA SALIR"""
      menu=pygame.display.set_mode((1152,700))
@@ -57,28 +69,27 @@ def menup():
                     sys.exit()
                """verifica si se realizo un evento donde se pulso el boton hacia abajo del mouse"""
                if event.type==pygame.MOUSEBUTTONDOWN:
-                    """corre la pantalla del servidor para ingresar datos"""
+                    
                     if cursor1.colliderect(btn1v1.rect):
                          sonidoboton.play()
-                         adminmusic=servidor.server(adminmusic)
+                         adminmusic=ira1vs1(adminmusic)
                          adminmusic.continuar()
                          adminmusic.reproducir()
-                    """corre la pantalla opciones"""
+                    
                     if cursor1.colliderect(btnopciones.rect):
                          sonidoboton.play()
-                         adminmusic=s_opciones.opci(adminmusic)
+                         adminmusic=iraopciones(adminmusic)
                          adminmusic.continuar()
                          adminmusic.reproducir()
-                    """corre la pantalla ayuda"""
+                    
                     if cursor1.colliderect(btnayuda.rect):
                          sonidoboton.play()
-                         adminmusic=s_ayuda.ayud(adminmusic)
+                         adminmusic=iraayuda(adminmusic)
                          adminmusic.continuar()
                          adminmusic.reproducir()
-                    """finaliza la pantalla del menu y ademas la pantalla del juego"""
                     if cursor1.colliderect(btnsalir.rect):
                          sonidoboton.play()
-                         running_menu=False
+                         running_menu=saliendo()
                          pygame.quit()
                          sys.exit()
           """se le ingresa un color de relleno al menu"""
