@@ -27,7 +27,7 @@ def opci(adminmusic):
      btnmusicaoff=funcionesgenerales.Boton(btnactivarmusica,btnpausar,980,85)
      btnsgteder=funcionesgenerales.Boton(btnder,btnder,1040,85)
      btnsgteizq=funcionesgenerales.Boton(btnizq,btnizq,910,85)
-     """se carga un fuente para el texto "sonido""""
+     """se carga un fuente para el texto sonido"""
      mifuente=pygame.font.SysFont("Consolas",60)
      titulo_sonido=mifuente.render("sonido",0,(255,255,255))
      """se inicializa un estado scroll moviendo"""
@@ -74,7 +74,7 @@ def opci(adminmusic):
                          else:
                               pygame.mixer.music.pause()
                               adminmusic.setpausa(True)
-               """modificamos el estado del scrollmoviendo"""
+                    """modificamos el estado del scrollmoviendo"""
                     if cursor1.colliderect(rectscroll):
                          moverscroll=True
                if event.type==pygame.MOUSEBUTTONUP:
@@ -107,7 +107,7 @@ def opci(adminmusic):
           btnsgteder.update(opciones,cursor1)
           btnsgteizq.update(opciones,cursor1)
           btnmusicaoff.update2(opciones,adminmusic)
-          """se muestra el boton "regresar""""
+          """se muestra el boton regresar"""
           boton1.update(opciones,cursor1)
           """carga los elementos del update"""
           pygame.display.update()

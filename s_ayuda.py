@@ -8,7 +8,7 @@ def ayud(adminmusic):
      ayu=pygame.display.set_mode((1152,700))
      titayuda=pygame.image.load('img/btnayuda.png')
      cursor1=funcionesgenerales.Cursor()
-     """se crea el boton "regresar""""
+     """se crea el boton regresar"""
      btn_1v1=pygame.image.load('img/atras.png')
      btn_1v12=pygame.image.load('img/atras2.png')
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
@@ -22,7 +22,7 @@ def ayud(adminmusic):
      mifuente=pygame.font.SysFont("Consolas",40)
      """se reproduce la musica, si la anterior se ha terminado"""
      adminmusic.reproducir()
-     """se inicializa el estado de "corriendo la pantalla ayuda""""
+     """se inicializa el estado de corriendo la pantalla ayuda"""
      running_ayuda=True
      while running_ayuda:
           """reproduce la musica que sigue"""

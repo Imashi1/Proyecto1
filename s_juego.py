@@ -18,7 +18,7 @@ def juego():
      mapai=pygame.image.load('img/mapa.png')
      fondomapai=funcionesgenerales.Boton(mapai,mapai,10,100)
      fondomapad=funcionesgenerales.Boton(mapad,mapad,590,100)
-     """se crean los botones "regresar" y "confirmar jugada""""
+     """se crean los botones regresar y confirmar jugada"""
      btn_1v1=pygame.image.load('img/atras.png')
      btn_1v12=pygame.image.load('img/atras2.png')
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
@@ -37,7 +37,7 @@ def juego():
      imagenbarco5=pygame.image.load('img/barco53.png')
      imagenmisilb=pygame.image.load('img/misilb.png')
      imagenmisilr=pygame.image.load('img/misilr.png')
-     """carga de imagenes de los botones "seleccionar barco""""
+     """carga de imagenes de los botones seleccionar barco"""
      btn_crearbarco1=pygame.image.load('img/1.png')
      btn_crearbarco1_2=pygame.image.load('img/1_2.png')
      btn_crearbarco2=pygame.image.load('img/2.png')
@@ -50,7 +50,7 @@ def juego():
      btn_crearbarco5_2=pygame.image.load('img/5_2.png')
      btn_misil=pygame.image.load('img/btn_misil.png')
      btn_misil2=pygame.image.load('img/btn_misil2.png')
-     """creacion de botones "seleccionar barco", "seleccionar misil""""
+     """creacion de botones seleccionar barco, seleccionar misil"""
      crearbarco1=funcionesgenerales.Boton(btn_crearbarco1,btn_crearbarco1_2,10,67)
      crearbarco2=funcionesgenerales.Boton(btn_crearbarco2,btn_crearbarco2_2,123,67)
      crearbarco3=funcionesgenerales.Boton(btn_crearbarco3,btn_crearbarco3_2,236,67)
@@ -62,7 +62,7 @@ def juego():
      """creamos el primer jugador "de este codigo", y lo mantenemos
      conectado"""
      p = n.getP()
-     """definimos dataframes para los mapas del jugador "de este codigo""""
+     """definimos dataframes para los mapas del jugador de este codigo"""
      df=pd.DataFrame(np.array([['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-']]))
      df2=pd.DataFrame(np.array([['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-']]))
      """creamos listas para agregar objetos de barcos y misiles
@@ -92,8 +92,8 @@ def juego():
                     p.setconfirmacion(False)
           else:
                p.setconfirmacion(False)
-          """muestra el ataque del jugador "del otro lado" en el jugador "de este codigo"
-          ademas difiere si el misil coliciono con el barco del jugador "de este codigo""""
+          """muestra el ataque del jugador del otro lado en el jugador de este codigo
+          ademas difiere si el misil coliciono con el barco del jugador de este codigo"""
           if antpos!=p2.getposatack():
                for pos in p2.getposatack():
                     if p.getmyship().iloc[pos[1]][pos[0]]!='-':
@@ -132,11 +132,13 @@ def juego():
                               misilmoviendo=True
                     """boton para crear un barco de tipo1"""
                     if cursor1.colliderect(crearbarco1.rect)and(p.getmiturno()==True):
-                         if barcomoviendo: """se elimina el "barco actual"""
+                         if barcomoviendo:
+                              """se elimina el "barco actual"""
                               barcomoviendo=False
                               del listabarcos[cuentabarcos-1]
                               cuentabarcos=cuentabarcos-1
-                         elif p.getnrobarcos()==cuentabarcos:     """se crea un nuevo barco"""
+                         elif p.getnrobarcos()==cuentabarcos:
+                              """se crea un nuevo barco"""
                               listabarcos.append(funcionesgenerales.Barco(imagenbarco1,imagenbarco1,1,1))
                               cuentabarcos=cuentabarcos+1
                               barcomoviendo=True
@@ -202,15 +204,17 @@ def juego():
                                    listamisiles[cuentamisiles-1].mover(cursor1,54,[590,100],misilmoviendo)
                               else:
                                    misilmoviendo=True
-                    """se actualizan los mapas, ultimas posiciones, de el jugador "de este codigo""""
+                    """se actualizan los mapas, ultimas posiciones, de el jugador de este codigo"""
                     if cursor1.colliderect(botonconfirmarjugada.rect)and(p.getmiturno()==True):
                          if cuentabarcos>0:
                               pos=listabarcos[cuentabarcos-1].obtenerposicion(54,[10,100],[0,0])
-                              for x in pos: """se marcan posiciones ocupadas al mapa de mis barcos"""
+                              for x in pos:
+                                   """se marcan posiciones ocupadas al mapa de mis barcos"""
                                    df.iloc[x[1]][x[0]]='◘'
                               p.setposship(pos);
                               pos2=listamisiles[cuentamisiles-1].obtenerposicion(54,[590,100],[0,0])
-                              for x in pos2:"""se marcan posiciones ocupadas al mapa de mis ataques"""
+                              for x in pos2:
+                                   """se marcan posiciones ocupadas al mapa de mis ataques"""
                                    df2.iloc[x[1]][x[0]]='☼'
                               p.setposatack(pos2);
                               for pos in pos2:
@@ -219,8 +223,10 @@ def juego():
                                         sonidoexplosion.play()
                               listabarcos[cuentabarcos-1].setconfirmado(True)
                               listamisiles[cuentamisiles-1].setconfirmado(True)
-                         p.setmyship(df)     """se actualiza mapa mis barcos, al jugador "de este codigo""""
-                         p.setmyatack(df2)   """se actualiza mapa mis ataques, al juagor "de este codigo""""
+                         p.setmyship(df)
+                         """se actualiza mapa mis barcos, al jugador de este codigo"""
+                         p.setmyatack(df2)
+                         """se actualiza mapa mis ataques, al juagor de este codigo"""
                          p.increnrobarcos()
                          p.increnromisiles()
                          p.setmiturno(False)
