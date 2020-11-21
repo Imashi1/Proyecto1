@@ -1,35 +1,37 @@
-#Libraries
 import pygame
 from decimal import Decimal, ROUND_HALF_UP
 import sys
 import numpy as np
 import pandas as pd
-#Redondea un numero decimal a entero
 def round_well(num):
+     """Funcion que: Recibe un numero decimal, Retorna el numero redondeado """
      return Decimal(num).quantize(0,ROUND_HALF_UP)
-#Clase cursor, creado para detectar colision de este con un rectangulo
 class Cursor(pygame.Rect):
+     """Clase cursor: Permite la colision del cursor con un rectangulo x """
      def __init__(self):
+          """Funcion que: Asigna al cursor, un rectangulo de tamaño de 1x1 pixel """
           pygame.Rect.__init__(self,0,0,1,1)
      def update(self):
+          """Funcion que: Obtiene las coordenadas del mouse"""
           self.left,self.top=pygame.mouse.get_pos()
-#Clase boton, el boton posee 2 imagenes diferentes para dar un efecto
 class Boton(pygame.sprite.Sprite):
-     #Se usa get_rect para obtener un rectangulo colisionable y relizar la funcion de un boton
+     """Clase boton: diseña un rectangulo, donde se puede colocar imagenes de fondo, y realizar algunos efectos de seleccion con la colision del cursor"""
      def __init__(self,imagen1,imagen2,x=200,y=200):
+          """Funcion que: recibe 2 imagenes para imagen normal y imagen seleccion, inicializa un rectangulo para que sea colisionable"""
           self.imagen_normal=imagen1
           self.imagen_seleccion=imagen2
           self.imagen_actual=self.imagen_normal
           self.rect=self.imagen_actual.get_rect()
           self.rect.left,self.rect.top=(x,y)
-     #Produce un efecto de boton, ademas de mostrar el boton en determinada pantalla
      def update(self,pantalla,cursor):
+          """Funcion que: Muestra el boton, Produce el intercambio de imagenes del boton al colisionar con el mouse"""
           if cursor.colliderect(self.rect):
                self.imagen_actual=self.imagen_seleccion
           else: self.imagen_actual=self.imagen_normal
 
           pantalla.blit(self.imagen_actual,self.rect)
      def update2(self,pantalla,adminmusic):
+          """Funcion que: Muestra el boton, Produce el intercambio de imagenes del boton al colisionar y presionar con el mouse"""
           if adminmusic.estadodetener()==True:
                self.imagen_actual=self.imagen_normal
           elif adminmusic.getpausa()==True:
@@ -37,12 +39,10 @@ class Boton(pygame.sprite.Sprite):
           else:
                self.imagen_actual=self.imagen_seleccion
           pantalla.blit(self.imagen_actual,self.rect)
-#--------------------------------------------------------
-#Clase barco, posee diversas funciones como: crear, mover, obtener posicion en un tablero, siendo un objeto de suma importancia
 class Barco(pygame.sprite.Sprite):
-     #crea un barco con dimensiones dependiendo de la imagen, con apoyo de la funcion pygame.surface.get_width para obtener
-     #las dimensiones de la imagen
+     """Clase barco: permite el manejo de un barco o misil, por medio del tablero"""
      def __init__(self,imagen1,imagen2,x=200,y=200):
+          """Funcion que: crea un rectangulo con las dimensiones de la imagen"""
           self.imagen_normal=imagen1
           self.imagen_seleccion=imagen2
           self.imagen_actual=self.imagen_normal
@@ -51,27 +51,23 @@ class Barco(pygame.sprite.Sprite):
           self.h=round_well(pygame.Surface.get_width(self.imagen_normal)/50)
           self.v=round_well(pygame.Surface.get_height(self.imagen_normal)/50)
           self.confirmado=False
-     #Detecta las colisiones con un rectangulo, y muestra el barco en una pantalla
      def update(self,pantalla,cursor):
+          """Funcion que: Muestra el objeto, Permite detectar la colision del objeto, y mostrarlo en la pantalla"""
           if cursor.colliderect(self.rect):
                self.imagen_actual=self.imagen_seleccion
           else: self.imagen_actual=self.imagen_normal
 
           pantalla.blit(self.imagen_actual,self.rect)
-     #Permite el movimiento del barco con el mouse, dejando a este, en una posicion valida del tablero
      def mover(self,cursor,dimension,p_inicio,barcomoviendo):
+          """Funcion que: Permite el movimiento del objeto con el mouse, denjandolo en una posicion valida del tablero (restringe el movimiento en el tablero) con ayuda de bucles"""
           if cursor.colliderect(self.rect):
                pass
           else:
                self.rect.left,self.rect.top=pygame.mouse.get_pos()
-               #se restringe el espacio de movimiento del barco
                if self.rect.left<10:
                     self.rect.left=10
                if self.rect.top<100:
                     self.rect.top=100
-                                                                                                         #if self.rect.left+pygame.Surface.get_width(self.imagen_normal)>570:
-          #se corrige la posicion del barco a una valida para el tablero con                             #if self.rect.top+pygame.Surface.get_height(self.imagen_normal)>460:
-          #ayuda de bucles intentando encontrar la direccion mas cercana
           if barcomoviendo==False:
                if cursor.colliderect(self.rect):
                     xr,yr=self.rect.left,self.rect.top
@@ -81,23 +77,18 @@ class Barco(pygame.sprite.Sprite):
                               y=j*dimension+p_inicio[1]
                               if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
                                    self.rect.left,self.rect.top=x+10,y+10
-                                   
-     #permite rotar el barco 90° con ayuda de la funcion pygame.transform.rotate()
      def rotar(self,angulo):
+          """Funcion que: Permite la rotacion del objeto en 90° de su posicion actual"""
           imagen_actual=pygame.transform.rotate(self.imagen_normal,angulo)
           self.imagen_normal=imagen_actual
           self.imagen_seleccion=pygame.transform.rotate(self.imagen_seleccion,angulo)
           self.imagen_actual=imagen_actual
-          #se obtiene un nuevo rectangulo
           self.rect=imagen_actual.get_rect()
-          #se iguala la posicion del mouse con la del barco
           self.rect.left,self.rect.top=pygame.mouse.get_pos()
-          #se actualizan las dimensiones del barco
           self.h=round_well(pygame.Surface.get_width(self.imagen_normal)/50)
           self.v=round_well(pygame.Surface.get_height(self.imagen_normal)/50)
-     #permite dar con las coordenadas del barco en el mapa, aproximando la posicion con
-     #posiciones validas conocidas, ademas devuelve las coordenadas en una lista
      def obtenerposicion(self,dimension,p_inicio,actual):
+          """Funcion que: permite obtener la posicion del barco en el mapa, ademas retorna esa posicion"""
           xr,yr=self.rect.left,self.rect.top
           for i in range(10):
                for j in range(10):
@@ -113,11 +104,13 @@ class Barco(pygame.sprite.Sprite):
         
           return result
      def getconfirmado(self):
+          """Funcion que: Retorna el estado sobre si se confirmo la posicion del objeto, retorna True si esta confirmada y False si no"""
           return self.confirmado
      def setconfirmado(self,valor):
+          """Funcion que: permite actualizar el estado de confirmacion de la posicion del objeto"""
           self.confirmado=valor
-#permite cargar la musica determianda por una posicion
 class Soundtrack():
+     """Clase soundtrack: Permite la administracion de una lista de musica entre las pantallas del juego"""
      def __init__(self):
           self.lista=['music/music.mp3','music/music2.mp3','music/music3.mp3']
           self.estado=pygame.mixer.music.get_busy()
@@ -129,18 +122,22 @@ class Soundtrack():
           self.pausar=False
           self.detener=False
      def anhadir(self,musica):
+          """Funcion que: permite añadir musica a la lista"""
           self.lista.append(musica)
           self.nromusica=self.nromusica+1
      def continuar(self):
+          """Funcion que: continua la musica actual despues de haberla pausado"""
           if self.detener==False:
                pygame.mixer.music.unpause()
      def reproducir(self):
+          """Funcion que: permite reproducir la musica actual si no se ha detenido"""
           if self.detener==False and pygame.mixer.music.get_busy()==False:
                pygame.mixer.music.load(self.lista[self.nroactual-1])
                pygame.mixer.music.play()
                pygame.mixer.music.set_pos(self.posicion)
                self.posicion=0
      def circular(self):
+          """Funcion que: permite la reproduccion de la lista ciclicamente"""
           if self.detener==False and self.pausar==False:
                self.estado=pygame.mixer.music.get_busy()
                if self.estado==False:
@@ -152,23 +149,30 @@ class Soundtrack():
                     pygame.mixer.music.load(self.lista[self.nroactual-1])
                     pygame.mixer.music.play()
      def sdetener(self):
+          """Funcion que: permite detener la musica actual"""
           self.detener=True
           pygame.mixer.music.stop()
      def activar(self):
+          """Funcion que: Pone en False el estado de detener"""
           self.detener=False
      def saliendopantalla(self):
+          """Funcion que: permite la continuacion de la musica de una pantalla a una anterior"""
           if self.pausar==True:
                self.sdetener()
           self.volumen=pygame.mixer.music.get_volume()
           self.posicion=pygame.mixer.music.get_pos()
           pygame.mixer.music.pause()
      def estadodetener(self):
+          """Funcion que: retorna el estado de detener, True si esta detenido, False si no"""
           return self.detener
      def getpausa(self):
+          """Funcion que: retorna el estado de pausa, True si esta pausado, False si no"""
           return self.pausar
      def setpausa(self,v):
+          """Funcion que: actualiza el estado de pausa de la musica"""
           self.pausar=v
      def sgteder(self):
+          """Funcion que: permite la reproduccion de la musica siguiente de la derecha"""
           if self.nroactual!=self.nromusica:
                self.nroactual=self.nroactual+1
           else:
@@ -177,6 +181,7 @@ class Soundtrack():
           self.activar()
           self.reproducir()
      def sgteizq(self):
+          """Funcion que: permite la reproduccion de la muscia siguiente de la izquierda"""
           if self.nroactual!=1:
                self.nroactual=self.nroactual-1
           else:
@@ -185,19 +190,20 @@ class Soundtrack():
           self.activar()
           self.reproducir()
 class Animacion():
-     def __init__(self,imagenes,posicion,pantalla):
-          self.lista=imagenes
-          self.pos=posicion
-          self.pantalla=patalla
-     def iniciar(self):
-          for i in lista:
-               self.pantalla.blit(imagenes[i],pos)
-#Clase boton play/pause, el boton posee 2 imagenes diferentes para dar un efecto
-class Botonsino(pygame.sprite.Sprite):
-     #Se usa get_rect para obtener un rectangulo colisionable y relizar la funcion de un boton
-     def __init__(self,imagen1,imagen2,x=200,y=200):
-          self.imagen_play=imagen1
-          self.imagen_pausa=imagen2
-          self.rect=self.imagen_play.get_rect()
-          self.rect.left,self.rect.top=(x,y)
-          self.estado=False
+     def __init__(self,listaimagenes,posicion):
+          super().__init__()
+          self.iniciar=False
+          self.lista=listaimagenes
+          self.contador=0
+          self.image=pygame.image.load(self.lista[self.contador])
+          self.rect=self.image.get_rect()
+          self.rect.topleft=[posicion[0],posicion[1]]
+     def iniciargif(self):
+          self.iniciar=True
+     def update(self,velocidad):
+          if self.iniciar==True:
+               self.contador+=velocidad
+               if int(self.contador)>=len(self.lista):
+                    self.contador=0
+                    self.iniciar=False
+          self.image=pygame.image.load(self.lista[int(self.contador)])
