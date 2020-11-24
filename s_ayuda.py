@@ -18,10 +18,12 @@ def ayud(adminmusic):
      barcoayud=funcionesgenerales.Barco(imagenbarco,imagenbarco,820,270)
      """se cargan las instrucciones del juego"""
      int1=pygame.image.load('img/int1.png')
+     int2=pygame.image.load('img/int2.png')
      """se carga la fuente de letra a utilizar"""
      mifuente=pygame.font.SysFont("Consolas",40)
      """se reproduce la musica, si la anterior se ha terminado"""
      adminmusic.reproducir()
+     barcoayudmoviendo=False
      """se inicializa el estado de corriendo la pantalla ayuda"""
      running_ayuda=True
      while running_ayuda:
@@ -38,11 +40,25 @@ def ayud(adminmusic):
                     if cursor1.colliderect(boton1.rect):
                          sonidoboton.play()
                          running_ayuda=False
+               if event.type==pygame.MOUSEBUTTONUP:
+                    if cursor1.colliderect(barcoayud.rect):
+                         if barcoayudmoviendo:
+                              barcoayudmoviendo=False
+                              barcoayud.mover2(cursor1,54,[750,320],barcoayudmoviendo)
+                         else:
+                              barcoayudmoviendo=True
+               if event.type==pygame.KEYDOWN:
+                    if event.key==pygame.K_r:
+                         if barcoayudmoviendo:
+                              barcoayud.rotar(90)
+          if barcoayudmoviendo:
+               barcoayud.mover2(cursor1,54,[750,320],barcoayudmoviendo)
           """carga de color de fondo, imagenes y boton regresar"""
           ayu.fill((50,150,200))
+          ayu.blit(int1,(10,220))
+          ayu.blit(int2,(710,150))
           ayu.blit(mapaayud,(750,320))
           barcoayud.update(ayu,cursor1)
-          ayu.blit(int1,(10,220))
           ayu.blit(titayuda,(450,10))
           """se carga un cursor para la pantalla"""
           cursor1.update()

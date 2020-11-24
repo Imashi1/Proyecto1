@@ -77,6 +77,21 @@ class Barco(pygame.sprite.Sprite):
                               y=j*dimension+p_inicio[1]
                               if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
                                    self.rect.left,self.rect.top=x+10,y+10
+     def mover2(self,cursor,dimension,p_inicio,barcomoviendo):
+          """Funcion que: permite el movimiento del objeto con el mouse, denjandolo en una posicion valida del tablero (restringe el movimiento en el tablero) con ayuda de bucles"""
+          if cursor.colliderect(self.rect):
+               pass
+          else:
+               self.rect.left,self.rect.top=pygame.mouse.get_pos()
+          if barcomoviendo==False:
+               if cursor.colliderect(self.rect):
+                    xr,yr=self.rect.left,self.rect.top
+                    for i in range(6):
+                         for j in range(6):
+                              x=i*dimension+p_inicio[0]
+                              y=j*dimension+p_inicio[1]
+                              if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
+                                   self.rect.left,self.rect.top=x+4,y+4
      def rotar(self,angulo):
           """Funcion que: permite la rotacion del objeto en 90° de su posicion actual"""
           imagen_actual=pygame.transform.rotate(self.imagen_normal,angulo)
@@ -159,6 +174,7 @@ class Soundtrack():
           """Funcion que: permite la continuacion de la musica de una pantalla a una anterior"""
           if self.pausar==True:
                self.sdetener()
+          #self.nroactual=self.nroactual-1
           self.volumen=pygame.mixer.music.get_volume()
           self.posicion=pygame.mixer.music.get_pos()
           pygame.mixer.music.pause()
