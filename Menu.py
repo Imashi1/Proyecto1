@@ -29,7 +29,8 @@ def menup():
      """define un cursor para la pantalla actual"""
      cursor1=funcionesgenerales.Cursor()
      """imagen del barco central"""
-     ship1=pygame.image.load('img/gifship/ship.png')
+     ship1=funcionesgenerales.Animacion('img/gifship/',180,60)
+     ship1.activar()
      """imagen del fondo inferior"""
      ship2=pygame.image.load('img/n.png')
      """estado de musica cargada e inicializa la posicion o lugar de determinada musica"""
@@ -96,7 +97,7 @@ def menup():
           menu.fill((50,150,200))
           """se muestra el titulo, imagenes,al menu a la pantalla"""
           menu.blit(titulo_menu,(340,13))
-          menu.blit(ship1,(180,60))
+          ship1.update1(0.07,menu)
           menu.blit(ship2,(0,557))
           """carga el cursor en la pantalla"""
           cursor1.update()

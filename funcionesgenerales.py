@@ -1,6 +1,7 @@
 import pygame
 from decimal import Decimal, ROUND_HALF_UP
 import sys
+import os
 import numpy as np
 import pandas as pd
 def round_well(num):
@@ -205,25 +206,34 @@ class Soundtrack():
           self.sdetener()
           self.activar()
           self.reproducir()
-class Animacion():
+class Animacion(pygame.sprite.Sprite):
      """Clase Animacion: usa frames para crear efecto gif"""
-     def __init__(self,listaimagenes,posicion):
+     def __init__(self,directorio,x=200,y=200):
           """Funcion que: recibe una lista de los frames, y la posicion en la pantalla"""
-          super().__init__()
-          self.iniciar=False
-          self.lista=listaimagenes
           self.contador=0
-          self.image=pygame.image.load(self.lista[self.contador])
-          self.rect=self.image.get_rect()
-          self.rect.topleft=[posicion[0],posicion[1]]
-     def iniciargif(self):
-          """Funcion que: activa la animacion"""
+          self.lista=[]
+          for i in range(len(os.listdir(directorio))):
+               self.lista.append(directorio+os.listdir(directorio)[i])
+          self.iniciar=False
+          self.rect=(pygame.image.load(self.lista[0])).get_rect()
+          self.rect.left,self.rect.top=(x,y)
+     def activar(self):
+          self.contador=0
           self.iniciar=True
-     def update(self,velocidad):
-          """Funcion que: actualiza el frame hasta recorrer toda la lista"""
-          if self.iniciar==True:
-               self.contador+=velocidad
-               if int(self.contador)>=len(self.lista):
-                    self.contador=0
-                    self.iniciar=False
-          self.image=pygame.image.load(self.lista[int(self.contador)])
+     def parar(self):
+          self.inciar=False
+     def update1(self,velocidad,pantalla):
+          if len(self.lista)>velocidad+self.contador and self.iniciar==True:
+               self.contador=self.contador+velocidad
+          else:
+               self.contador=0
+          pantalla.blit(pygame.image.load(self.lista[int(self.contador)]),self.rect)
+     def update2(self,velocidad,pantalla):
+          if len(self.lista)>velocidad+self.contador and self.iniciar==True:
+               self.contador=self.contador+velocidad
+          else:
+               self.contador=0
+               self.iniciar=False
+          pantalla.blit(pygame.image.load(self.lista[int(self.contador)]),self.rect)
+               
+               
