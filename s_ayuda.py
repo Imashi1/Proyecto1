@@ -59,7 +59,7 @@ def ayud(adminmusic):
           ayu.blit(int2,(710,150))
           ayu.blit(mapaayud,(750,320))
           barcoayud.update(ayu,cursor1)
-          ayu.blit(titayuda,(450,10))
+          ayu.blit(titayuda,(450,3))
           """se carga un cursor para la pantalla"""
           cursor1.update()
           boton1.update(ayu,cursor1)

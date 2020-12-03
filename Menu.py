@@ -45,14 +45,18 @@ def menup():
      ayuda2=pygame.image.load('img/btnayuda2.png')
      salir=pygame.image.load('img/btnsalir.png')
      salir2=pygame.image.load('img/btnsalir2.png')
+     iconmando=pygame.image.load('img/mando.png')
+     iconopciones=pygame.image.load('img/opciones.png')
+     iconayuda=pygame.image.load('img/ayuda.png')
+     iconsalir=pygame.image.load('img/salir.png')
      """poniendo el titulo del juego, primero cargando una fuente, y luego renderizando un string con esa fuente"""
-     mifuente=pygame.font.SysFont("Italic",96)
+     mifuente=pygame.font.SysFont("Arial",86)
      titulo_menu=mifuente.render("BATTLESHIP",0,(255,255,255))
      """creando botones para el menu"""
-     btn1v1=funcionesgenerales.Boton(unov1,unov12,30,580)
-     btnopciones=funcionesgenerales.Boton(opciones,opciones2,310,580)
-     btnayuda=funcionesgenerales.Boton(ayuda,ayuda2,590,580)
-     btnsalir=funcionesgenerales.Boton(salir,salir2,870,580)
+     btn1v1=funcionesgenerales.Boton(unov1,unov12,30,550)
+     btnopciones=funcionesgenerales.Boton(opciones,opciones2,310,550)
+     btnayuda=funcionesgenerales.Boton(ayuda,ayuda2,590,550)
+     btnsalir=funcionesgenerales.Boton(salir,salir2,870,550)
      """creando el administrador de una lista de musica, y la reproduce"""
      adminmusic=funcionesgenerales.Soundtrack()
      adminmusic.reproducir()
@@ -106,6 +110,10 @@ def menup():
           btnopciones.update(menu,cursor1)
           btnayuda.update(menu,cursor1)
           btnsalir.update(menu,cursor1)
+          menu.blit(iconmando,(130,650))
+          menu.blit(iconopciones,(420,650))
+          menu.blit(iconayuda,(700,650))
+          menu.blit(iconsalir,(980,650))
           """carga los elementos del update"""
           pygame.display.update()
 

@@ -4,6 +4,7 @@ def opci(adminmusic):
      import sys
      import os
      import funcionesgenerales
+     titopciones=pygame.image.load('img/btnopciones.png')
      """inicializa el sonido para los botones"""
      sonidoboton=pygame.mixer.Sound('sound/boton.wav')
      opciones=pygame.display.set_mode((1152,700))
@@ -88,6 +89,7 @@ def opci(adminmusic):
           opciones.blit(titulo_sonido,(250,85))
           opciones.blit(base,(700,105))
           opciones.blit(scroll,rectscroll)
+          opciones.blit(titopciones,(450,3))
           cursor1.update()
           """permite y restringe el movimiento del scroll
           y al mismo tiempo baja o sube el volumen"""

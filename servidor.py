@@ -16,10 +16,11 @@ def server(adminmusic):
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
      """se carga una fuente, y renderizar textos"""
      mifuente=pygame.font.SysFont("Consolas",60)
-     titulo_server=mifuente.render("Server",0,(255,255,255))
+     titulo_server=mifuente.render("Servidor",0,(255,255,255))
      titulo_contrasenha=mifuente.render("Contraseña",0,(255,255,255))
      """se crea una fuente e inicializan 2 cadenas de texto"""
      base_font=pygame.font.Font(None,60)
+     base_font2=pygame.font.Font(None,40)
      user_text=''
      user_text2=''
      """se carga y crea el boton jugar"""
@@ -51,23 +52,15 @@ def server(adminmusic):
                     if cursor1.colliderect(btnjugar.rect):
                          sonidoboton.play()
                          s_juego.juego()
-                    """detecta si el cursor colisiono con el primer campo de texto"""
-                    if cursor1.colliderect(a):
-                         if escribiendo==True:
-                              escribiendo=False
-                         else:
-                              escribiendo=True
                     """redefine el estado escribiendo primer campo de texto"""
-                    if cursor1.colliderect(serv_rect) and cursor1.colliderect(a)==False:
+                    if cursor1.colliderect(serv_rect) and cursor1.colliderect(a)==True:
+                         escribiendo=True
+                    else:
                          escribiendo=False
-                    """detecta si el cursor colisiono con el segundo campo de texto"""
-                    if cursor1.colliderect(a2):
-                         if escribiendo2==True:
-                              escribiendo2=False
-                         else:
-                              escribiendo2=True
                     """redefine el estado escribiendo segundo campo de texto"""
-                    if cursor1.colliderect(serv_rect) and cursor1.colliderect(a2)==False:
+                    if cursor1.colliderect(serv_rect) and cursor1.colliderect(a2)==True:
+                         escribiendo2=True
+                    else:
                          escribiendo2=False
 
                """permite escribir en el primer campo de texto"""
@@ -90,17 +83,21 @@ def server(adminmusic):
           serv.fill((50,150,200))
           cursor1.update()
           """muestra los campos de texto"""
-          a=pygame.draw.rect(serv,(250,250,250),[600,150,350,50],0)
-          a2=pygame.draw.rect(serv,(250,250,250),[600,500,350,50],0)
+          a=pygame.draw.rect(serv,(250,250,250),[600,200,350,50],0)
+          a2=pygame.draw.rect(serv,(250,250,250),[600,340,350,50],0)
           """muestra texto a la pantalla"""
-          serv.blit(titulo_server,(200,150))
-          serv.blit(titulo_contrasenha,(200,500))
+          serv.blit(titulo_server,(200,200))
+          serv.blit(titulo_contrasenha,(200,340))
           """inicializan los textos que van en los campos de texto"""
           text_surface=base_font.render(user_text,True,(0,0,0))
+          if user_text=="":
+               text_surface=base_font2.render("Digite el servidor",True,(0,0,0))
           text_surface2=base_font.render(user_text2,True,(0,0,0))
+          if user_text2=="":
+               text_surface2=base_font2.render("Digite la contraseña",True,(0,0,0))
           """muestra los textos que van en los campos de texto"""
-          serv.blit(text_surface,(610,150))
-          serv.blit(text_surface2,(610,500))
+          serv.blit(text_surface,(610,200))
+          serv.blit(text_surface2,(610,340))
           """muestra de boton "regresar", jugar"""
           boton1.update(serv,cursor1)
           btnjugar.update(serv,cursor1)
