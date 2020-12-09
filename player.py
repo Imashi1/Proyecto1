@@ -6,13 +6,6 @@ class Player():
         """Clase jugador: almacena informacion del juegador, para enviarlo al otro"""
         def __init__(self,x,y,width,height,color,turno):
                 """Funcion que: inicializa el jugador con 2 dataframe como mapas y estado de turno dependiendo del ultimo parametro"""
-                self.x=x        #NA
-                self.y=y        #NA
-                self.width=width #NA
-                self.height=height #NA
-                self.color=color #NA
-                self.rect=(x,y,width,height) #NA
-                self.vel=4 #NA
                 """inicializa frames para ser usados como mapas de barcos y misiles"""
                 self.myship=pd.DataFrame(np.array([['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-']]))
                 self.myatack=pd.DataFrame(np.array([['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-']]))
@@ -22,7 +15,12 @@ class Player():
                 self.nrobarcos=0
                 self.nromisiles=0
                 self.miturno=turno
+                self.ponersolobarcos=True
                 self.confirmacion=False
+        def setponersolobarcos(self,valor):
+                self.ponersolobarcos=valor
+        def getponersolobarcos(self):
+                return self.ponersolobarcos
         def getconfirmacion(self):
                 """Funcion que: retorna el estado de si confirmo la jugada actual, True si la confirmo, False, si no"""
                 return self.confirmacion
@@ -35,21 +33,6 @@ class Player():
         def setmiturno(self,v):
                 """Funcion que: actualiza el estado del jugador"""
                 self.miturno=v
-        def draw(self,win): #NA
-                pygame.draw.rect(win,self.color,self.rect)
-        def move(self):         #NA
-                keys=pygame.key.get_pressed()                                                           #<-esa funcion es interesante
-                if keys[pygame.K_LEFT]:
-                        self.x-=self.vel
-                if keys[pygame.K_RIGHT]:
-                        self.x+=self.vel
-                if keys[pygame.K_UP]:
-                        self.y-=self.vel
-                if keys[pygame.K_DOWN]:
-                        self.y+=self.vel
-                self.update()
-        def update(self):               #NA
-                self.rect = (self.x,self.y,self.width,self.height)
         def getmyship(self):
                 """Funcion que: retorna el mapa o dataframe de los barcos del jugador"""
                 return self.myship
@@ -77,9 +60,9 @@ class Player():
         def getnrobarcos(self):
                 """Funcion que: retorna el numero de barcos del jugador"""
                 return self.nrobarcos
-        def increnrobarcos(self):
+        def increnrobarcos(self,valor=1):
                 """Funcion que: incrementa el numero de barcos del jugador"""
-                self.nrobarcos=self.nrobarcos+1
+                self.nrobarcos=self.nrobarcos+valor
         def getnromisiles(self):
                 """Funcion que: retorna el numero de misiles del jugador"""
                 return self.nromisiles

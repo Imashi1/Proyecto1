@@ -15,7 +15,7 @@ def ayud(adminmusic):
      """se crea un barco para realizar un ejemplo del juego"""
      imagenbarco=pygame.image.load('img/barco32.png')
      mapaayud=pygame.image.load('img/mapaayud.png')
-     barcoayud=funcionesgenerales.Barco(imagenbarco,imagenbarco,820,270)
+     barcoayud=funcionesgenerales.Barco(imagenbarco,imagenbarco,820,270,1)
      """se cargan las instrucciones del juego"""
      int1=pygame.image.load('img/int1.png')
      int2=pygame.image.load('img/int2.png')
@@ -44,7 +44,7 @@ def ayud(adminmusic):
                     if cursor1.colliderect(barcoayud.rect):
                          if barcoayudmoviendo:
                               barcoayudmoviendo=False
-                              barcoayud.mover2(cursor1,54,[750,320],barcoayudmoviendo)
+                              barcoayud.mover(cursor1,54,[750,320],barcoayudmoviendo,6,6)
                          else:
                               barcoayudmoviendo=True
                if event.type==pygame.KEYDOWN:
@@ -52,7 +52,7 @@ def ayud(adminmusic):
                          if barcoayudmoviendo:
                               barcoayud.rotar(90)
           if barcoayudmoviendo:
-               barcoayud.mover2(cursor1,54,[750,320],barcoayudmoviendo)
+               barcoayud.mover(cursor1,54,[750,320],barcoayudmoviendo,6,6)
           """carga de color de fondo, imagenes y boton regresar"""
           ayu.fill((50,150,200))
           ayu.blit(int1,(10,220))

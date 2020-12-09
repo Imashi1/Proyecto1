@@ -30,11 +30,11 @@ def juego():
      miturno=mifuente.render("es mi turno",0,(255,255,255))
      esperando=mifuente.render("esperando...",0,(255,255,255))
      """carga de imagenes de los barcos y misil a utilizar"""
-     imagenbarco1=pygame.image.load('img/barco31.png')
-     imagenbarco2=pygame.image.load('img/barco32.png')
-     imagenbarco3=pygame.image.load('img/barco33.png')
-     imagenbarco4=pygame.image.load('img/barco43.png')
-     imagenbarco5=pygame.image.load('img/barco53.png')
+     imagenbarco1=pygame.image.load('img/barco53.png')
+     imagenbarco2=pygame.image.load('img/barco31.png')
+     imagenbarco3=pygame.image.load('img/barco32.png')
+     imagenbarco4=pygame.image.load('img/barco33.png')
+     imagenbarco5=pygame.image.load('img/barco43.png')
      imagenmisilb=pygame.image.load('img/misilb.png')
      imagenmisilr=pygame.image.load('img/misilr.png')
      """carga de imagenes de los botones seleccionar barco"""
@@ -71,6 +71,10 @@ def juego():
      listabarcos=[]
      listamisiles=[]
      listamisilesrival=[]
+     """x"""
+     cantidadmaxima=7
+     acuerdobarcos=[7,6,5,4,3]
+     cuentabarcosespecial=[0,0,0,0,0]
      """inicializacion de contadores"""
      cuentabarcos=0
      cuentamisiles=0
@@ -121,70 +125,76 @@ def juego():
                          running_juego=False
                if event.type==pygame.MOUSEBUTTONUP:
                     """boton para crear un nuevo misil"""
-                    if cursor1.colliderect(botonmisil.rect)and(p.getmiturno()==True):
+                    if cursor1.colliderect(botonmisil.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==False):
                          if misilmoviendo:
                               misilmoviendo=False
                               del listamisiles[cuentamisiles-1]
                               cuentamisiles=cuentamisiles-1
                          elif p.getnromisiles()==cuentamisiles:
-                              listamisiles.append(funcionesgenerales.Barco(imagenmisilb,imagenmisilb,1,1))
+                              listamisiles.append(funcionesgenerales.Barco(imagenmisilb,imagenmisilb,1,1,0))
                               cuentamisiles=cuentamisiles+1
                               misilmoviendo=True
                     """boton para crear un barco de tipo1"""
-                    if cursor1.colliderect(crearbarco1.rect)and(p.getmiturno()==True):
+                    if cursor1.colliderect(crearbarco1.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
                               """se elimina el "barco actual"""
                               barcomoviendo=False
+                              cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]=cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]-1
                               del listabarcos[cuentabarcos-1]
                               cuentabarcos=cuentabarcos-1
-                         elif p.getnrobarcos()==cuentabarcos:
+                         elif p.getnrobarcos()+cantidadmaxima>cuentabarcos and cuentabarcosespecial[0]<acuerdobarcos[0]:
                               """se crea un nuevo barco"""
-                              listabarcos.append(funcionesgenerales.Barco(imagenbarco1,imagenbarco1,1,1))
+                              listabarcos.append(funcionesgenerales.Barco(imagenbarco1,imagenbarco1,1,1,1))
                               cuentabarcos=cuentabarcos+1
+                              cuentabarcosespecial[0]=cuentabarcosespecial[0]+1
                               barcomoviendo=True
                     """boton para crear un barco de tipo2"""
-                    if cursor1.colliderect(crearbarco2.rect)and(p.getmiturno()==True):
-                         
+                    if cursor1.colliderect(crearbarco2.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
                               barcomoviendo=False
+                              cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]=cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]-1
                               del listabarcos[cuentabarcos-1]
                               cuentabarcos=cuentabarcos-1
-                         elif p.getnrobarcos()==cuentabarcos:
-                              listabarcos.append(funcionesgenerales.Barco(imagenbarco2,imagenbarco2,1,1))
+                         elif p.getnrobarcos()+cantidadmaxima>cuentabarcos and cuentabarcosespecial[1]<acuerdobarcos[1]:
+                              listabarcos.append(funcionesgenerales.Barco(imagenbarco2,imagenbarco2,1,1,2))
                               cuentabarcos=cuentabarcos+1
+                              cuentabarcosespecial[1]=cuentabarcosespecial[1]+1
                               barcomoviendo=True
                     """boton para crear un barco de tipo3"""
-                    if cursor1.colliderect(crearbarco3.rect)and(p.getmiturno()==True):
-                         
+                    if cursor1.colliderect(crearbarco3.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
                               barcomoviendo=False
+                              cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]=cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]-1
                               del listabarcos[cuentabarcos-1]
                               cuentabarcos=cuentabarcos-1
-                         elif p.getnrobarcos()==cuentabarcos:
-                              listabarcos.append(funcionesgenerales.Barco(imagenbarco3,imagenbarco3,1,1))
+                         elif p.getnrobarcos()+cantidadmaxima>cuentabarcos and cuentabarcosespecial[2]<acuerdobarcos[2]:
+                              listabarcos.append(funcionesgenerales.Barco(imagenbarco3,imagenbarco3,1,1,3))
                               cuentabarcos=cuentabarcos+1
+                              cuentabarcosespecial[2]=cuentabarcosespecial[2]+1
                               barcomoviendo=True
                     """boton para crear un barco de tipo4"""
-                    if cursor1.colliderect(crearbarco4.rect)and(p.getmiturno()==True):
-                         
+                    if cursor1.colliderect(crearbarco4.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
                               barcomoviendo=False
+                              cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]=cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]-1
                               del listabarcos[cuentabarcos-1]
                               cuentabarcos=cuentabarcos-1
-                         elif p.getnrobarcos()==cuentabarcos:
-                              listabarcos.append(funcionesgenerales.Barco(imagenbarco4,imagenbarco4,1,1))
+                         elif p.getnrobarcos()+cantidadmaxima>cuentabarcos and cuentabarcosespecial[3]<acuerdobarcos[3]:
+                              listabarcos.append(funcionesgenerales.Barco(imagenbarco4,imagenbarco4,1,1,4))
                               cuentabarcos=cuentabarcos+1
+                              cuentabarcosespecial[3]=cuentabarcosespecial[3]+1
                               barcomoviendo=True
                     """boton para crear un barco de tipo5"""
-                    if cursor1.colliderect(crearbarco5.rect)and(p.getmiturno()==True):
-                         
+                    if cursor1.colliderect(crearbarco5.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
                               barcomoviendo=False
+                              cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]=cuentabarcosespecial[listabarcos[cuentabarcos-1].gettipobarco()-1]-1
                               del listabarcos[cuentabarcos-1]
                               cuentabarcos=cuentabarcos-1
-                         elif p.getnrobarcos()==cuentabarcos:
-                              listabarcos.append(funcionesgenerales.Barco(imagenbarco5,imagenbarco5,1,1))
+                         elif p.getnrobarcos()+cantidadmaxima>cuentabarcos and cuentabarcosespecial[4]<acuerdobarcos[4]:
+                              listabarcos.append(funcionesgenerales.Barco(imagenbarco5,imagenbarco5,1,1,5))
                               cuentabarcos=cuentabarcos+1
+                              cuentabarcosespecial[4]=cuentabarcosespecial[4]+1
                               barcomoviendo=True
                     """trabaja con el estado de barco moviendo y corrige la posicion del barco
                     a una valida, en caso de que el barco no este en movimiento"""
@@ -192,7 +202,9 @@ def juego():
                          if cursor1.colliderect(listabarcos[cuentabarcos-1].rect)and(listabarcos[cuentabarcos-1].getconfirmado()==False):
                               if barcomoviendo:
                                    barcomoviendo=False
-                                   listabarcos[cuentabarcos-1].mover(cursor1,54,[10,100],barcomoviendo)
+                                   listabarcos[cuentabarcos-1].mover(cursor1,54,[10,100],barcomoviendo,10,10)
+                                   if listabarcos[cuentabarcos-1].superposicionb(listabarcos,listamisiles,listamisilesrival):
+                                        barcomoviendo=True
                               else:
                                    barcomoviendo=True
                     """trabaja con el estado misil en movimiento y corrige la posicion del misil
@@ -201,36 +213,48 @@ def juego():
                          if cursor1.colliderect(listamisiles[cuentamisiles-1].rect)and(listamisiles[cuentamisiles-1].getconfirmado()==False):
                               if misilmoviendo:
                                    misilmoviendo=False
-                                   listamisiles[cuentamisiles-1].mover(cursor1,54,[590,100],misilmoviendo)
+                                   listamisiles[cuentamisiles-1].mover(cursor1,54,[590,100],misilmoviendo,10,10)
+                                   if listamisiles[cuentamisiles-1].superposicionm(listabarcos,listamisiles,listamisilesrival):
+                                        misilmoviendo=True
                               else:
                                    misilmoviendo=True
                     """se actualizan los mapas, ultimas posiciones, de el jugador de este codigo"""
                     if cursor1.colliderect(botonconfirmarjugada.rect)and(p.getmiturno()==True):
-                         if cuentabarcos>0:
-                              pos=listabarcos[cuentabarcos-1].obtenerposicion(54,[10,100],[0,0])
-                              for x in pos:
-                                   """se marcan posiciones ocupadas al mapa de mis barcos"""
-                                   df.iloc[x[1]][x[0]]='◘'
-                              p.setposship(pos);
-                              pos2=listamisiles[cuentamisiles-1].obtenerposicion(54,[590,100],[0,0])
+                         if cuentabarcos>0 and p.getnrobarcos()+cantidadmaxima==cuentabarcos:
+                              for i in range(p.getnrobarcos(),p.getnrobarcos()+cantidadmaxima):
+                                   pos=listabarcos[i].obtenerposicion(54,[10,100],[0,0],10,10)
+                                   for x in pos:
+                                        """se marcan posiciones ocupadas al mapa de mis barcos"""
+                                        df.iloc[x[1]][x[0]]='◘'
+                                   p.setposship(pos)
+                                   listabarcos[i].setconfirmado(True)
+                              cuentabarcosespecial=[0,0,0,0,0]
+
+                         if cuentamisiles>0:
+                              pos2=listamisiles[cuentamisiles-1].obtenerposicion(54,[590,100],[0,0],10,10)
                               for x in pos2:
                                    """se marcan posiciones ocupadas al mapa de mis ataques"""
                                    df2.iloc[x[1]][x[0]]='☼'
-                              p.setposatack(pos2);
+                              p.setposatack(pos2)
+                              listamisiles[cuentamisiles-1].setconfirmado(True)
+
+                         if cuentabarcos>0 and cuentamisiles>0:
                               for pos in pos2:
                                    if p2.getmyship().iloc[pos[1]][pos[0]]!='-':                                          
-                                        listamisiles[cuentamisiles-1]=funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*pos[0]+600,54*pos[1]+110)
+                                        listamisiles[cuentamisiles-1]=funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*pos[0]+600,54*pos[1]+110,0)
                                         sonidoexplosion.play()
-                              listabarcos[cuentabarcos-1].setconfirmado(True)
-                              listamisiles[cuentamisiles-1].setconfirmado(True)
-                         p.setmyship(df)
-                         """se actualiza mapa mis barcos, al jugador de este codigo"""
-                         p.setmyatack(df2)
-                         """se actualiza mapa mis ataques, al juagor de este codigo"""
-                         p.increnrobarcos()
-                         p.increnromisiles()
+                              
                          p.setmiturno(False)
                          p.setconfirmacion(True)
+                         if p.getponersolobarcos():
+                              p.setmyship(df)
+                              """se actualiza mapa mis barcos, al jugador de este codigo"""
+                              p.increnrobarcos(cantidadmaxima)
+                              p.setponersolobarcos(False)
+                         else:
+                              p.setmyatack(df2)
+                              """se actualiza mapa mis ataques, al juagor de este codigo"""
+                              p.increnromisiles()
           """se pone color de fondo de la pantalla"""
           battleship.fill((50,150,200))
           cursor1.update()
@@ -257,7 +281,7 @@ def juego():
                barco.update(battleship,cursor1)
           """mueve el barco dependiendo del estado barcomoviendo"""
           if barcomoviendo:
-               listabarcos[cuentabarcos-1].mover(cursor1,54,[10,100],barcomoviendo)
+               listabarcos[cuentabarcos-1].mover(cursor1,54,[10,100],barcomoviendo,10,10)
           """se muestran los misiles que estan en la lista de misiles"""
           for misil in listamisiles:
                misil.update(battleship,cursor1)
@@ -266,10 +290,7 @@ def juego():
                misil.update(battleship,cursor1)
           """mueve el misil dependiendo del estado misil moviendo"""
           if misilmoviendo:
-               listamisiles[cuentamisiles-1].mover(cursor1,54,[590,100],misilmoviendo)
-          p.move()  #NA
-          p.draw(battleship) #NA
-          p2.draw(battleship) #NA
+               listamisiles[cuentamisiles-1].mover(cursor1,54,[590,100],misilmoviendo,10,10)
           """carga los elementos del update"""
           pygame.display.update()
  

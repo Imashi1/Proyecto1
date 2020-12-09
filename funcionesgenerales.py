@@ -42,8 +42,9 @@ class Boton(pygame.sprite.Sprite):
           pantalla.blit(self.imagen_actual,self.rect)
 class Barco(pygame.sprite.Sprite):
      """Clase barco: Permite el manejo de un barco o misil, por medio del tablero"""
-     def __init__(self,imagen1,imagen2,x=200,y=200):
+     def __init__(self,imagen1,imagen2,x=200,y=200,tipobarco=0):
           """Funcion que: crea un rectangulo con las dimensiones de la imagen"""
+          self.tipo=tipobarco
           self.imagen_normal=imagen1
           self.imagen_seleccion=imagen2
           self.imagen_actual=self.imagen_normal
@@ -52,6 +53,8 @@ class Barco(pygame.sprite.Sprite):
           self.h=round_well(pygame.Surface.get_width(self.imagen_normal)/50)
           self.v=round_well(pygame.Surface.get_height(self.imagen_normal)/50)
           self.confirmado=False
+     def gettipobarco(self):
+          return self.tipo
      def update(self,pantalla,cursor):
           """Funcion que: muestra el objeto, Permite detectar la colision del objeto, y mostrarlo en la pantalla"""
           if cursor.colliderect(self.rect):
@@ -59,40 +62,46 @@ class Barco(pygame.sprite.Sprite):
           else: self.imagen_actual=self.imagen_normal
 
           pantalla.blit(self.imagen_actual,self.rect)
-     def mover(self,cursor,dimension,p_inicio,barcomoviendo):
+     def mover(self,cursor,dimension,p_inicio,barcomoviendo,nfilas,ncolumn):
           """Funcion que: permite el movimiento del objeto con el mouse, denjandolo en una posicion valida del tablero (restringe el movimiento en el tablero) con ayuda de bucles"""
           if cursor.colliderect(self.rect):
                pass
           else:
                self.rect.left,self.rect.top=pygame.mouse.get_pos()
-               if self.rect.left<10:
-                    self.rect.left=10
-               if self.rect.top<100:
-                    self.rect.top=100
+               if self.rect.left<p_inicio[0]:
+                    self.rect.left=p_inicio[0]
+               if self.rect.top<p_inicio[1]:
+                    self.rect.top=p_inicio[1]
           if barcomoviendo==False:
                if cursor.colliderect(self.rect):
                     xr,yr=self.rect.left,self.rect.top
-                    for i in range(10):
-                         for j in range(10):
+                    for i in range(nfilas):
+                         for j in range(ncolumn):
                               x=i*dimension+p_inicio[0]
                               y=j*dimension+p_inicio[1]
                               if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
                                    self.rect.left,self.rect.top=x+10,y+10
-     def mover2(self,cursor,dimension,p_inicio,barcomoviendo):
-          """Funcion que: permite el movimiento del objeto con el mouse, denjandolo en una posicion valida del tablero (restringe el movimiento en el tablero) con ayuda de bucles"""
-          if cursor.colliderect(self.rect):
-               pass
-          else:
-               self.rect.left,self.rect.top=pygame.mouse.get_pos()
-          if barcomoviendo==False:
-               if cursor.colliderect(self.rect):
-                    xr,yr=self.rect.left,self.rect.top
-                    for i in range(6):
-                         for j in range(6):
-                              x=i*dimension+p_inicio[0]
-                              y=j*dimension+p_inicio[1]
-                              if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
-                                   self.rect.left,self.rect.top=x+4,y+4
+     def superposicionb(self,listabarcos,listamisiles,listamisilesrival):
+          valor=False
+          for i in (listabarcos[:-1]):
+               if (self.rect).colliderect(i.rect):
+                    valor=True
+          for j in (listamisiles):
+               if (self.rect).colliderect(j.rect):
+                    valor=True
+          for k in (listamisilesrival):
+               if (self.rect).colliderect(k.rect):
+                    valor=True
+          return valor
+     def superposicionm(self,listabarcos,listamisiles,listamisilesrival):
+          valor=False
+          for i in (listabarcos):
+               if (self.rect).colliderect(i.rect):
+                    valor=True
+          for j in (listamisiles[:-1]):
+               if (self.rect).colliderect(j.rect):
+                    valor=True
+          return valor
      def rotar(self,angulo):
           """Funcion que: permite la rotacion del objeto en 90° de su posicion actual"""
           imagen_actual=pygame.transform.rotate(self.imagen_normal,angulo)
@@ -103,11 +112,11 @@ class Barco(pygame.sprite.Sprite):
           self.rect.left,self.rect.top=pygame.mouse.get_pos()
           self.h=round_well(pygame.Surface.get_width(self.imagen_normal)/50)
           self.v=round_well(pygame.Surface.get_height(self.imagen_normal)/50)
-     def obtenerposicion(self,dimension,p_inicio,actual):
+     def obtenerposicion(self,dimension,p_inicio,actual,nfilas,ncolumn):
           """Funcion que: permite obtener la posicion del barco en el mapa, ademas retorna esa posicion"""
           xr,yr=self.rect.left,self.rect.top
-          for i in range(10):
-               for j in range(10):
+          for i in range(nfilas):
+               for j in range(ncolumn):
                     x=i*dimension+p_inicio[0]
                     y=j*dimension+p_inicio[1]
                     if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
