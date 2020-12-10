@@ -88,6 +88,8 @@ def juego():
      while running_juego:
           """se crea un segundo jugador "del otro lado" y se mantiene conectado"""
           c = n.send(p)
+          print("1")
+          print(p.getmiturno())
           """actualiza el jugador p2, solo si se confirmo su jugada"""
           if c.getconfirmacion()==True:
                p2=c
@@ -96,6 +98,8 @@ def juego():
                     p.setconfirmacion(False)
           else:
                p.setconfirmacion(False)
+          print("2")
+          print(p.getmiturno())
           """muestra el ataque del jugador del otro lado en el jugador de este codigo
           ademas difiere si el misil coliciono con el barco del jugador de este codigo"""
           if antpos!=p2.getposatack():
@@ -123,6 +127,8 @@ def juego():
                     if cursor1.colliderect(boton1.rect):
                          sonidoboton.play()
                          running_juego=False
+               print("3")
+               print(p.getmiturno())
                if event.type==pygame.MOUSEBUTTONUP:
                     """boton para crear un nuevo misil"""
                     if cursor1.colliderect(botonmisil.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==False):
@@ -218,8 +224,10 @@ def juego():
                                         misilmoviendo=True
                               else:
                                    misilmoviendo=True
+                    print("4")
+                    print(p.getmiturno())
                     """se actualizan los mapas, ultimas posiciones, de el jugador de este codigo"""
-                    if cursor1.colliderect(botonconfirmarjugada.rect)and(p.getmiturno()==True):
+                    if cursor1.colliderect(botonconfirmarjugada.rect)and(p.getmiturno()==True)and(p.getnrobarcos()+cantidadmaxima==cuentabarcos or p.getnromisiles()+1==cuentamisiles):
                          if cuentabarcos>0 and p.getnrobarcos()+cantidadmaxima==cuentabarcos:
                               for i in range(p.getnrobarcos(),p.getnrobarcos()+cantidadmaxima):
                                    pos=listabarcos[i].obtenerposicion(54,[10,100],[0,0],10,10)
@@ -243,7 +251,6 @@ def juego():
                                    if p2.getmyship().iloc[pos[1]][pos[0]]!='-':                                          
                                         listamisiles[cuentamisiles-1]=funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*pos[0]+600,54*pos[1]+110,0)
                                         sonidoexplosion.play()
-                              
                          p.setmiturno(False)
                          p.setconfirmacion(True)
                          if p.getponersolobarcos():
@@ -255,6 +262,8 @@ def juego():
                               p.setmyatack(df2)
                               """se actualiza mapa mis ataques, al juagor de este codigo"""
                               p.increnromisiles()
+                         print("5")
+                         print(p.getmiturno())
           """se pone color de fondo de la pantalla"""
           battleship.fill((50,150,200))
           cursor1.update()
