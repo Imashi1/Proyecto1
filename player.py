@@ -14,9 +14,14 @@ class Player():
                 self.posatack=[]
                 self.nrobarcos=0
                 self.nromisiles=0
+                self.nrobloques=0
                 self.miturno=turno
                 self.ponersolobarcos=True
                 self.confirmacion=False
+        def restarnrobloques(self,valor):
+                self.nrobloques=self.nrobloques-valor
+        def getnrobloques(self):
+                return self.nrobloques
         def setponersolobarcos(self,valor):
                 self.ponersolobarcos=valor
         def getponersolobarcos(self):
@@ -54,6 +59,7 @@ class Player():
         def setposship(self,posship):
                 """Funcion que: actualiza la posicion del barco reciente"""
                 self.posship=posship
+                self.nrobloques=self.nrobloques+len(posship)
         def setposatack(self,posatack):
                 """Funcion que: actualiza la posicion del misil reciente"""
                 self.posatack=posatack

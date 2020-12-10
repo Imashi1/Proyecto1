@@ -21,6 +21,7 @@ def menup():
      """Pantalla principal del juego: 1152X700 pixeles, con 4 botones, 1VS1 OPCIONES AYUDA SALIR"""
      menu=pygame.display.set_mode((1152,700))
      """pone icono y nombre en la barra del programa"""
+     pygame.mixer.music.set_volume(0)
      pygame.display.set_caption("Battleship")
      icon=pygame.image.load('img/icon.png')
      pygame.display.set_icon(icon)

@@ -81,7 +81,7 @@ class Barco(pygame.sprite.Sprite):
                               y=j*dimension+p_inicio[1]
                               if (xr>=x)and(xr<=x+dimension)and(yr>=y)and(yr<=y+dimension):
                                    self.rect.left,self.rect.top=x+10,y+10
-     def superposicionb(self,listabarcos,listamisiles,listamisilesrival):
+     def superposicionb(self,listabarcos,listamisiles,listamisilesrival,botonconfirmarjugada):
           valor=False
           for i in (listabarcos[:-1]):
                if (self.rect).colliderect(i.rect):
@@ -92,8 +92,10 @@ class Barco(pygame.sprite.Sprite):
           for k in (listamisilesrival):
                if (self.rect).colliderect(k.rect):
                     valor=True
+          if self.rect.colliderect(botonconfirmarjugada.rect):
+               valor=True
           return valor
-     def superposicionm(self,listabarcos,listamisiles,listamisilesrival):
+     def superposicionm(self,listabarcos,listamisiles,listamisilesrival,botonconfirmarjugada):
           valor=False
           for i in (listabarcos):
                if (self.rect).colliderect(i.rect):
@@ -101,6 +103,8 @@ class Barco(pygame.sprite.Sprite):
           for j in (listamisiles[:-1]):
                if (self.rect).colliderect(j.rect):
                     valor=True
+          if self.rect.colliderect(botonconfirmarjugada.rect):
+               valor=True
           return valor
      def rotar(self,angulo):
           """Funcion que: permite la rotacion del objeto en 90° de su posicion actual"""

@@ -75,6 +75,7 @@ def juego():
      cantidadmaxima=7
      acuerdobarcos=[7,6,5,4,3]
      cuentabarcosespecial=[0,0,0,0,0]
+     advertencia=0
      """inicializacion de contadores"""
      cuentabarcos=0
      cuentamisiles=0
@@ -86,10 +87,9 @@ def juego():
      running_juego=True
      p2=n.send(p)
      while running_juego:
+          advertencia=0
           """se crea un segundo jugador "del otro lado" y se mantiene conectado"""
           c = n.send(p)
-          print("1")
-          print(p.getmiturno())
           """actualiza el jugador p2, solo si se confirmo su jugada"""
           if c.getconfirmacion()==True:
                p2=c
@@ -98,8 +98,6 @@ def juego():
                     p.setconfirmacion(False)
           else:
                p.setconfirmacion(False)
-          print("2")
-          print(p.getmiturno())
           """muestra el ataque del jugador del otro lado en el jugador de este codigo
           ademas difiere si el misil coliciono con el barco del jugador de este codigo"""
           if antpos!=p2.getposatack():
@@ -107,6 +105,7 @@ def juego():
                     if p.getmyship().iloc[pos[1]][pos[0]]!='-':
                          listamisilesrival.append(funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*pos[0]+20,54*pos[1]+110))
                          sonidoexplosion.play()
+                         p.restarnrobloques(1)
                     else:
                          listamisilesrival.append(funcionesgenerales.Barco(imagenmisilb,imagenmisilb,54*pos[0]+20,54*pos[1]+110))
                antpos=p2.getposatack()
@@ -127,8 +126,6 @@ def juego():
                     if cursor1.colliderect(boton1.rect):
                          sonidoboton.play()
                          running_juego=False
-               print("3")
-               print(p.getmiturno())
                if event.type==pygame.MOUSEBUTTONUP:
                     """boton para crear un nuevo misil"""
                     if cursor1.colliderect(botonmisil.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==False):
@@ -140,6 +137,8 @@ def juego():
                               listamisiles.append(funcionesgenerales.Barco(imagenmisilb,imagenmisilb,1,1,0))
                               cuentamisiles=cuentamisiles+1
                               misilmoviendo=True
+                    if cursor1.colliderect(botonmisil.rect)and(p.getponersolobarcos()==True):
+                         advertencia=1
                     """boton para crear un barco de tipo1"""
                     if cursor1.colliderect(crearbarco1.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -154,6 +153,8 @@ def juego():
                               cuentabarcos=cuentabarcos+1
                               cuentabarcosespecial[0]=cuentabarcosespecial[0]+1
                               barcomoviendo=True
+                         else:
+                              advertencia=2
                     """boton para crear un barco de tipo2"""
                     if cursor1.colliderect(crearbarco2.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -166,6 +167,8 @@ def juego():
                               cuentabarcos=cuentabarcos+1
                               cuentabarcosespecial[1]=cuentabarcosespecial[1]+1
                               barcomoviendo=True
+                         else:
+                              advertencia=2
                     """boton para crear un barco de tipo3"""
                     if cursor1.colliderect(crearbarco3.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -178,6 +181,8 @@ def juego():
                               cuentabarcos=cuentabarcos+1
                               cuentabarcosespecial[2]=cuentabarcosespecial[2]+1
                               barcomoviendo=True
+                         else:
+                              advertencia=2
                     """boton para crear un barco de tipo4"""
                     if cursor1.colliderect(crearbarco4.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -190,6 +195,8 @@ def juego():
                               cuentabarcos=cuentabarcos+1
                               cuentabarcosespecial[3]=cuentabarcosespecial[3]+1
                               barcomoviendo=True
+                         else:
+                              advertencia=2
                     """boton para crear un barco de tipo5"""
                     if cursor1.colliderect(crearbarco5.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -202,6 +209,10 @@ def juego():
                               cuentabarcos=cuentabarcos+1
                               cuentabarcosespecial[4]=cuentabarcosespecial[4]+1
                               barcomoviendo=True
+                         else:
+                              advertencia=2
+                    if ((cursor1.colliderect(crearbarco1.rect) or cursor1.colliderect(crearbarco2.rect) or cursor1.colliderect(crearbarco3.rect) or cursor1.colliderect(crearbarco4.rect) or cursor1.colliderect(crearbarco5.rect)) and (p.getponersolobarcos()==False)):
+                         advertencia=3
                     """trabaja con el estado de barco moviendo y corrige la posicion del barco
                     a una valida, en caso de que el barco no este en movimiento"""
                     if cuentabarcos>0:
@@ -209,25 +220,23 @@ def juego():
                               if barcomoviendo:
                                    barcomoviendo=False
                                    listabarcos[cuentabarcos-1].mover(cursor1,54,[10,100],barcomoviendo,10,10)
-                                   if listabarcos[cuentabarcos-1].superposicionb(listabarcos,listamisiles,listamisilesrival):
+                                   if listabarcos[cuentabarcos-1].superposicionb(listabarcos,listamisiles,listamisilesrival,botonconfirmarjugada):
                                         barcomoviendo=True
                               else:
                                    barcomoviendo=True
                     """trabaja con el estado misil en movimiento y corrige la posicion del misil
                     a una valida, en caso de que el misil no este en movimiento"""
                     if cuentamisiles>0:
-                         if cursor1.colliderect(listamisiles[cuentamisiles-1].rect)and(listamisiles[cuentamisiles-1].getconfirmado()==False):
+                         if cursor1.colliderect(listamisiles[cuentamisiles-1].rect)and(listamisiles[cuentamisiles-1].getconfirmado()==False)and(p.getnromisiles()!=cuentamisiles):
                               if misilmoviendo:
                                    misilmoviendo=False
                                    listamisiles[cuentamisiles-1].mover(cursor1,54,[590,100],misilmoviendo,10,10)
-                                   if listamisiles[cuentamisiles-1].superposicionm(listabarcos,listamisiles,listamisilesrival):
+                                   if listamisiles[cuentamisiles-1].superposicionm(listabarcos,listamisiles,listamisilesrival,botonconfirmarjugada):
                                         misilmoviendo=True
                               else:
                                    misilmoviendo=True
-                    print("4")
-                    print(p.getmiturno())
                     """se actualizan los mapas, ultimas posiciones, de el jugador de este codigo"""
-                    if cursor1.colliderect(botonconfirmarjugada.rect)and(p.getmiturno()==True)and(p.getnrobarcos()+cantidadmaxima==cuentabarcos or p.getnromisiles()+1==cuentamisiles):
+                    if cursor1.colliderect(botonconfirmarjugada.rect)and(p.getmiturno()==True)and((p.getnrobarcos()+cantidadmaxima==cuentabarcos and barcomoviendo==False) or (p.getnromisiles()+1==cuentamisiles and misilmoviendo==False)):
                          if cuentabarcos>0 and p.getnrobarcos()+cantidadmaxima==cuentabarcos:
                               for i in range(p.getnrobarcos(),p.getnrobarcos()+cantidadmaxima):
                                    pos=listabarcos[i].obtenerposicion(54,[10,100],[0,0],10,10)
@@ -251,6 +260,7 @@ def juego():
                                    if p2.getmyship().iloc[pos[1]][pos[0]]!='-':                                          
                                         listamisiles[cuentamisiles-1]=funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*pos[0]+600,54*pos[1]+110,0)
                                         sonidoexplosion.play()
+                                        p2.restarnrobloques(1)
                          p.setmiturno(False)
                          p.setconfirmacion(True)
                          if p.getponersolobarcos():
@@ -262,8 +272,6 @@ def juego():
                               p.setmyatack(df2)
                               """se actualiza mapa mis ataques, al juagor de este codigo"""
                               p.increnromisiles()
-                         print("5")
-                         print(p.getmiturno())
           """se pone color de fondo de la pantalla"""
           battleship.fill((50,150,200))
           cursor1.update()
@@ -275,6 +283,9 @@ def juego():
                battleship.blit(miturno,(900,30))
           else:
                battleship.blit(esperando,(900,30))
+          battleship.blit(mifuente.render("Mis bloques restantes: "+str(p.getnrobloques()),0,(255,255,255)),(600,30))
+          battleship.blit(mifuente.render("Bloques restantes rival: "+str(p2.getnrobloques()),0,(255,255,255)),(600,60))
+
           """se muestran los botones de seleccionar barco o misil"""
           crearbarco1.update(battleship,cursor1)
           crearbarco2.update(battleship,cursor1)
@@ -285,6 +296,21 @@ def juego():
           """se muestra el boton de confirmar jugada, y boton regresar"""
           botonconfirmarjugada.update(battleship,cursor1)
           boton1.update(battleship,cursor1)
+          if advertencia==1:
+               txt=funcionesgenerales.Animacion('img/debescolocarbarcos/',500,60)
+               txt.activar()
+               txt.update2(0.000007,battleship)
+               advertencia=0
+          if advertencia==2:
+               txt=funcionesgenerales.Animacion('img/cantidaddeestosbarcosagotados/',500,60)
+               txt.activar()
+               txt.update2(0.000007,battleship)
+               advertencia=0
+          if advertencia==3:
+               txt=funcionesgenerales.Animacion('img/debescolocarmisiles/',500,60)
+               txt.activar()
+               txt.update2(0.000007,battleship)
+               advertencia=0
           """se muestran los barcos que estan en la lista de barcos"""
           for barco in listabarcos:
                barco.update(battleship,cursor1)
