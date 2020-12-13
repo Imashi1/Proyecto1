@@ -1,6 +1,7 @@
 import pygame
 from decimal import Decimal, ROUND_HALF_UP
 import sys
+import time
 import os
 import numpy as np
 import pandas as pd
@@ -72,6 +73,14 @@ class Barco(pygame.sprite.Sprite):
                     self.rect.left=p_inicio[0]
                if self.rect.top<p_inicio[1]:
                     self.rect.top=p_inicio[1]
+
+                    
+               if self.rect.left>=p_inicio[0]+(nfilas*(dimension+2))-(pygame.Surface.get_width(self.imagen_normal)):
+                    self.rect.left=p_inicio[0]+(nfilas*(dimension+2))-(pygame.Surface.get_width(self.imagen_normal))
+
+                    
+               if self.rect.top>=p_inicio[1]+(ncolumn*(dimension+2))-(pygame.Surface.get_height(self.imagen_normal)):
+                    self.rect.top=p_inicio[1]+(ncolumn*(dimension+2))-(pygame.Surface.get_height(self.imagen_normal))
           if barcomoviendo==False:
                if cursor.colliderect(self.rect):
                     xr,yr=self.rect.left,self.rect.top
@@ -235,6 +244,8 @@ class Animacion(pygame.sprite.Sprite):
           self.iniciar=True
      def parar(self):
           self.inciar=False
+     def getiniciar(self):
+          return self.iniciar
      def update1(self,velocidad,pantalla):
           if len(self.lista)>velocidad+self.contador and self.iniciar==True:
                self.contador=self.contador+velocidad
@@ -248,5 +259,5 @@ class Animacion(pygame.sprite.Sprite):
                self.contador=0
                self.iniciar=False
           pantalla.blit(pygame.image.load(self.lista[int(self.contador)]),self.rect)
-               
+
                

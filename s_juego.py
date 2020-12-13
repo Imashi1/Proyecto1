@@ -8,6 +8,12 @@ def juego():
      from player import Player
      from network import Network
      battleship=pygame.display.set_mode((1152,700))
+     txt1=funcionesgenerales.Animacion('img/debescolocarbarcos/',500,60)
+     txt2=funcionesgenerales.Animacion('img/cantidaddeestosbarcosagotados/',500,60)
+     txt3=funcionesgenerales.Animacion('img/debescolocarmisiles/',500,60)
+     ganaste=funcionesgenerales.Animacion('img/ganaste/',500,60)
+     perdiste=funcionesgenerales.Animacion('img/perdiste/',500,60)
+     advertencia=0
      """se crea un cursor para el juego"""
      cursor1=funcionesgenerales.Cursor()
      """carga sonido para el boton"""
@@ -87,7 +93,6 @@ def juego():
      running_juego=True
      p2=n.send(p)
      while running_juego:
-          advertencia=0
           """se crea un segundo jugador "del otro lado" y se mantiene conectado"""
           c = n.send(p)
           """actualiza el jugador p2, solo si se confirmo su jugada"""
@@ -98,6 +103,19 @@ def juego():
                     p.setconfirmacion(False)
           else:
                p.setconfirmacion(False)
+               
+          if (p.getnrobloques()==0 or p2.getnrobloques()==0) and (p.getponersolobarcos()==False and p2.getponersolobarcos()==False)and(p.getnroturno()==p2.getnroturno()):
+               if p.getnrobloques()==0 and p2.getnrobloques()!=0:
+                    perdiste.activar()
+                    perdiste.update1(0.7,battleship)
+               elif p.getnrobloques()!=0 and p2.getnrobloques()==0:
+                    ganaste.activar()
+                    ganaste.update1(0.7,battleship)
+               else:
+                    pass
+               p.setmiturno(False)
+               p2.setmiturno(False)
+               p.setconfirmacion(True)
           """muestra el ataque del jugador del otro lado en el jugador de este codigo
           ademas difiere si el misil coliciono con el barco del jugador de este codigo"""
           if antpos!=p2.getposatack():
@@ -121,6 +139,7 @@ def juego():
                     if event.key==pygame.K_r:
                          if barcomoviendo:
                               listabarcos[cuentabarcos-1].rotar(90)
+                              
                """se devuele a la pantalla del ingresar servidor"""
                if event.type==pygame.MOUSEBUTTONDOWN:
                     if cursor1.colliderect(boton1.rect):
@@ -139,6 +158,7 @@ def juego():
                               misilmoviendo=True
                     if cursor1.colliderect(botonmisil.rect)and(p.getponersolobarcos()==True):
                          advertencia=1
+                         txt1.activar()
                     """boton para crear un barco de tipo1"""
                     if cursor1.colliderect(crearbarco1.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -155,6 +175,7 @@ def juego():
                               barcomoviendo=True
                          else:
                               advertencia=2
+                              txt2.activar()
                     """boton para crear un barco de tipo2"""
                     if cursor1.colliderect(crearbarco2.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -169,6 +190,7 @@ def juego():
                               barcomoviendo=True
                          else:
                               advertencia=2
+                              txt2.activar()
                     """boton para crear un barco de tipo3"""
                     if cursor1.colliderect(crearbarco3.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -183,6 +205,7 @@ def juego():
                               barcomoviendo=True
                          else:
                               advertencia=2
+                              txt2.activar()
                     """boton para crear un barco de tipo4"""
                     if cursor1.colliderect(crearbarco4.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -197,6 +220,7 @@ def juego():
                               barcomoviendo=True
                          else:
                               advertencia=2
+                              txt2.activar()
                     """boton para crear un barco de tipo5"""
                     if cursor1.colliderect(crearbarco5.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==True):
                          if barcomoviendo:
@@ -211,8 +235,10 @@ def juego():
                               barcomoviendo=True
                          else:
                               advertencia=2
-                    if ((cursor1.colliderect(crearbarco1.rect) or cursor1.colliderect(crearbarco2.rect) or cursor1.colliderect(crearbarco3.rect) or cursor1.colliderect(crearbarco4.rect) or cursor1.colliderect(crearbarco5.rect)) and (p.getponersolobarcos()==False)):
+                              txt2.activar()
+                    if ((cursor1.colliderect(crearbarco1.rect)==True or cursor1.colliderect(crearbarco2.rect)==True or cursor1.colliderect(crearbarco3.rect)==True or cursor1.colliderect(crearbarco4.rect)==True or cursor1.colliderect(crearbarco5.rect)==True) and (p.getponersolobarcos()==False)):
                          advertencia=3
+                         txt3.activar()
                     """trabaja con el estado de barco moviendo y corrige la posicion del barco
                     a una valida, en caso de que el barco no este en movimiento"""
                     if cuentabarcos>0:
@@ -263,6 +289,7 @@ def juego():
                                         p2.restarnrobloques(1)
                          p.setmiturno(False)
                          p.setconfirmacion(True)
+                         p.increnroturno()
                          if p.getponersolobarcos():
                               p.setmyship(df)
                               """se actualiza mapa mis barcos, al jugador de este codigo"""
@@ -297,20 +324,20 @@ def juego():
           botonconfirmarjugada.update(battleship,cursor1)
           boton1.update(battleship,cursor1)
           if advertencia==1:
-               txt=funcionesgenerales.Animacion('img/debescolocarbarcos/',500,60)
-               txt.activar()
-               txt.update2(0.000007,battleship)
-               advertencia=0
+               if txt1.getiniciar()==True:
+                    txt1.update2(0.2,battleship)
+               else:
+                    advertencia=0
           if advertencia==2:
-               txt=funcionesgenerales.Animacion('img/cantidaddeestosbarcosagotados/',500,60)
-               txt.activar()
-               txt.update2(0.000007,battleship)
-               advertencia=0
+               if txt2.getiniciar()==True:
+                    txt2.update2(0.2,battleship)
+               else:
+                    advertencia=0
           if advertencia==3:
-               txt=funcionesgenerales.Animacion('img/debescolocarmisiles/',500,60)
-               txt.activar()
-               txt.update2(0.000007,battleship)
-               advertencia=0
+               if txt3.getiniciar()==True:
+                    txt3.update2(0.2,battleship)
+               else:
+                    advertencia=0
           """se muestran los barcos que estan en la lista de barcos"""
           for barco in listabarcos:
                barco.update(battleship,cursor1)

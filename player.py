@@ -18,6 +18,7 @@ class Player():
                 self.miturno=turno
                 self.ponersolobarcos=True
                 self.confirmacion=False
+                self.nroturno=1
         def restarnrobloques(self,valor):
                 self.nrobloques=self.nrobloques-valor
         def getnrobloques(self):
@@ -38,6 +39,10 @@ class Player():
         def setmiturno(self,v):
                 """Funcion que: actualiza el estado del jugador"""
                 self.miturno=v
+        def increnroturno(self):
+                self.nroturno=self.nroturno+1
+        def getnroturno(self):
+                return self.nroturno
         def getmyship(self):
                 """Funcion que: retorna el mapa o dataframe de los barcos del jugador"""
                 return self.myship

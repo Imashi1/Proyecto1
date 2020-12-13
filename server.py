@@ -20,7 +20,7 @@ server ='localhost'
 port = 5555
 """se crea un socket para mantener conectado el servidor con los clientes"""
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-intentarconectar()                                                #player1 = [Player(0,0,50,50,(255,0,0))]
+intentarconectar()                                                #play5er1 = [Player(0,0,50,50,(255,0,0))]
                                                                 #player2 = [Player(100,100,50,50,(0,0,255))]
                                                                 #players = player1 + player2
                                                                 #players-= player
