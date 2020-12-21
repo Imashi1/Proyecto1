@@ -11,8 +11,8 @@ def juego():
      txt1=funcionesgenerales.Animacion('img/debescolocarbarcos/',500,60)
      txt2=funcionesgenerales.Animacion('img/cantidaddeestosbarcosagotados/',500,60)
      txt3=funcionesgenerales.Animacion('img/debescolocarmisiles/',500,60)
-     ganaste=funcionesgenerales.Animacion('img/ganaste/',500,60)
-     perdiste=funcionesgenerales.Animacion('img/perdiste/',500,60)
+     ganaste=funcionesgenerales.Animacion('img/ganaste/',200,60)
+     perdiste=funcionesgenerales.Animacion('img/perdiste/',200,60)
      advertencia=0
      """se crea un cursor para el juego"""
      cursor1=funcionesgenerales.Cursor()
@@ -82,6 +82,8 @@ def juego():
      acuerdobarcos=[7,6,5,4,3]
      cuentabarcosespecial=[0,0,0,0,0]
      advertencia=0
+     partida=True
+     fin=0
      """inicializacion de contadores"""
      cuentabarcos=0
      cuentamisiles=0
@@ -104,14 +106,18 @@ def juego():
           else:
                p.setconfirmacion(False)
                
-          if (p.getnrobloques()==0 or p2.getnrobloques()==0) and (p.getponersolobarcos()==False and p2.getponersolobarcos()==False)and(p.getnroturno()==p2.getnroturno()):
+          if (partida==True)and(p.getnrobloques()==0 or p2.getnrobloques()==0) and (p.getponersolobarcos()==False and p2.getponersolobarcos()==False)and(p.getnroturno()==p2.getnroturno()):
                if p.getnrobloques()==0 and p2.getnrobloques()!=0:
                     perdiste.activar()
-                    perdiste.update1(0.7,battleship)
+                    partida=False
+                    fin=1
                elif p.getnrobloques()!=0 and p2.getnrobloques()==0:
                     ganaste.activar()
-                    ganaste.update1(0.7,battleship)
+                    fin=2
+                    partida=False
                else:
+                    partida=False
+                    fin=3
                     pass
                p.setmiturno(False)
                p2.setmiturno(False)
@@ -323,6 +329,12 @@ def juego():
           """se muestra el boton de confirmar jugada, y boton regresar"""
           botonconfirmarjugada.update(battleship,cursor1)
           boton1.update(battleship,cursor1)
+          if fin==1:
+               perdiste.update1(0.2,battleship)
+          if fin==2:
+               ganaste.update1(0.2,battleship)
+          if fin==3:
+                battleship.blit(mifuente.render("EMPATE",0,(255,255,255)),(200,60))
           if advertencia==1:
                if txt1.getiniciar()==True:
                     txt1.update2(0.2,battleship)
