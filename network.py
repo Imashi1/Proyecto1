@@ -7,7 +7,7 @@ class Network:
                 
                 self.client=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
                 """ip del servidor"""
-                self.server='localhost'
+                self.server='26.5.27.101'
                 self.port=5555
                 self.addr=(self.server,self.port)
                 """inicializa p con la funcion connect() para recibir data"""

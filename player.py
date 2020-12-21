@@ -19,6 +19,10 @@ class Player():
                 self.ponersolobarcos=True
                 self.confirmacion=False
                 self.nroturno=1
+                if turno==True:
+                        self.jugador="p1"
+                else:
+                        self.jugador="p2"
         def restarnrobloques(self,valor):
                 self.nrobloques=self.nrobloques-valor
         def getnrobloques(self):

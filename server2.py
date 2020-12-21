@@ -33,22 +33,19 @@ def threaded_client(conn, player):
     conn.send(pickle.dumps(players[player]))
     reply = ""
     while True:
-        try:
-            data = pickle.loads(conn.recv(2048))
-            players[player]=data
-            if not data:
-                print("Disconnected")
-                break
+        data = pickle.loads(conn.recv(2048))
+        players[player]=data
+        if not data:
+            print("Disconnected")
+            break
+        else:
+            if player ==1:
+                reply=players[0]
             else:
-                if player ==1:
-                    reply=players[0]
-                else:
-                    reply=players[1]
-                print("Recieved:",data)
-                print("Sending: ",reply)
-            conn.sendall(pickle.dumps(reply))
-        except:
-            pass
+                reply=players[1]
+            print("Recieved:",data)
+            print("Sending: ",reply)
+        conn.sendall(pickle.dumps(reply))
     print("Lost connection")
     conn.close()
 """se inicializa un contador numero de jugador"""
