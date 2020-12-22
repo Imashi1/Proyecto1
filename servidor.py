@@ -19,8 +19,8 @@ def server(adminmusic):
      titulo_server=mifuente.render("Servidor",0,(255,255,255))
      titulo_contrasenha=mifuente.render("Contraseña",0,(255,255,255))
      """se crea una fuente e inicializan 2 cadenas de texto"""
-     base_font=pygame.font.Font(None,60)
-     base_font2=pygame.font.Font(None,40)
+     base_font=pygame.font.SysFont("Arial",55)
+     base_font2=pygame.font.SysFont("Arial",40)
      user_text=''
      user_text2=''
      """se carga y crea el boton jugar"""

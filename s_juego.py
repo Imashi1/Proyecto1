@@ -20,10 +20,10 @@ def juego(host,port):
      sonidoboton=pygame.mixer.Sound('sound/boton.wav')
      sonidoexplosion=pygame.mixer.Sound('sound/expl.wav')
      """se carga el fondo de los mapas"""
-     mapad=pygame.image.load('img/mapa.png')
-     mapai=pygame.image.load('img/mapa.png')
-     fondomapai=funcionesgenerales.Boton(mapai,mapai,10,100)
-     fondomapad=funcionesgenerales.Boton(mapad,mapad,590,100)
+     fondomapai=funcionesgenerales.Animacion('img/mapa/',10,100)
+     fondomapad=funcionesgenerales.Animacion('img/mapa/',590,100)
+     fondomapai.activar()
+     fondomapad.activar()
      """se crean los botones regresar y confirmar jugada"""
      btn_1v1=pygame.image.load('img/atras.png')
      btn_1v12=pygame.image.load('img/atras2.png')
@@ -311,8 +311,8 @@ def juego(host,port):
           battleship.fill((50,150,200))
           cursor1.update()
           """se muestran los mapas del juego"""
-          fondomapai.update(battleship,cursor1)
-          fondomapad.update(battleship,cursor1)
+          fondomapai.update1(0.3,battleship)
+          fondomapad.update1(0.3,battleship)
           """poner texto de mi turno o en espera"""
           if p.getmiturno()==True and p.getmiturno()!=p2.getmiturno():
                battleship.blit(miturno,(900,30))
