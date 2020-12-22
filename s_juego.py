@@ -1,4 +1,4 @@
-def juego():
+def juego(host,port):
      """Pantalla del juego, con botones para seleccionar barcos, misiles, confirmar jugada, etc"""
      import pygame
      import numpy as np
@@ -64,10 +64,12 @@ def juego():
      crearbarco5=funcionesgenerales.Boton(btn_crearbarco5,btn_crearbarco5_2,462,67)
      botonmisil=funcionesgenerales.Boton(btn_misil,btn_misil2,850,57)
      """creacion de un objeto network como asistente para enviar la data al servidor"""
-     n=Network()
+     n=Network(host,port)
      """creamos el primer jugador "de este codigo", y lo mantenemos
      conectado"""
      p = n.getP()
+     if p==-1:
+          return -1
      """definimos dataframes para los mapas del jugador de este codigo"""
      df=pd.DataFrame(np.array([['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-']]))
      df2=pd.DataFrame(np.array([['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-'],['-','-','-','-','-','-','-','-','-','-']]))

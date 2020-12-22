@@ -30,6 +30,7 @@ def server(adminmusic):
      """se inicializan estados de estar escribiendo en un campo"""
      escribiendo=False
      escribiendo2=False
+     sinconexion=0
      """se reproduce la musica, si la anterior se ha terminado"""
      adminmusic.reproducir()
      """se inicializa el estado corriendo registro servidor"""
@@ -49,9 +50,11 @@ def server(adminmusic):
                          sonidoboton.play()
                          running_server=False
                     """iniciamos la pantalla del juego"""
-                    if cursor1.colliderect(btnjugar.rect):
+                    if cursor1.colliderect(btnjugar.rect)and len(user_text)!=0 and len(user_text)!=0:
+                         sinconexion=0
                          sonidoboton.play()
-                         s_juego.juego()
+                         sinconexion=s_juego.juego(user_text,int(user_text2))
+                         
                     """redefine el estado escribiendo primer campo de texto"""
                     if cursor1.colliderect(serv_rect) and cursor1.colliderect(a)==True:
                          escribiendo=True
@@ -78,7 +81,9 @@ def server(adminmusic):
                               user_text2=user_text2[:-1]
                          else:
                               if len(user_text2)<=11:
-                                   user_text2+=event.unicode  
+                                   letra=event.unicode
+                                   if letra.isdigit():
+                                        user_text2+=event.unicode  
           """define el color de fondo de la pantalla"""
           serv.fill((50,150,200))
           cursor1.update()
@@ -95,6 +100,9 @@ def server(adminmusic):
           text_surface2=base_font.render(user_text2,True,(0,0,0))
           if user_text2=="":
                text_surface2=base_font2.render("Digite la contraseña",True,(0,0,0))
+          if sinconexion==-1:
+               text_surface3=base_font2.render("Digite una IP y puerto valido!!",True,(255,0,0))
+               serv.blit(text_surface3,(400,550))
           """muestra los textos que van en los campos de texto"""
           serv.blit(text_surface,(610,200))
           serv.blit(text_surface2,(610,340))
