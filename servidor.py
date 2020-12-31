@@ -16,8 +16,8 @@ def server(adminmusic):
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
      """se carga una fuente, y renderizar textos"""
      mifuente=pygame.font.SysFont("Consolas",60)
-     titulo_server=mifuente.render("Servidor",0,(255,255,255))
-     titulo_contrasenha=mifuente.render("Contraseña",0,(255,255,255))
+     titulo_server=mifuente.render("Servidor IP",0,(255,255,255))
+     titulo_contrasenha=mifuente.render("Puerto",0,(255,255,255))
      """se crea una fuente e inicializan 2 cadenas de texto"""
      base_font=pygame.font.SysFont("Arial",55)
      base_font2=pygame.font.SysFont("Arial",40)
