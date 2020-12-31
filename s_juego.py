@@ -99,15 +99,12 @@ def juego(host,port):
      while running_juego:
           """se crea un segundo jugador "del otro lado" y se mantiene conectado"""
           c = n.send(p)
+          p.setconfirmacion(False)
           """actualiza el jugador p2, solo si se confirmo su jugada"""
           if c.getconfirmacion()==True:
                p2=c
                if p2.getmiturno()==False:
                     p.setmiturno(True)
-                    p.setconfirmacion(False)
-          else:
-               p.setconfirmacion(False)
-               
           if (partida==True)and(p.getnrobloques()==0 or p2.getnrobloques()==0) and (p.getponersolobarcos()==False and p2.getponersolobarcos()==False)and(p.getnroturno()==p2.getnroturno()):
                if p.getnrobloques()==0 and p2.getnrobloques()!=0:
                     perdiste.activar()
@@ -314,7 +311,7 @@ def juego(host,port):
           fondomapai.update1(0.3,battleship)
           fondomapad.update1(0.3,battleship)
           """poner texto de mi turno o en espera"""
-          if p.getmiturno()==True and p.getmiturno()!=p2.getmiturno():
+          if p.getmiturno()==True:
                battleship.blit(miturno,(900,30))
           else:
                battleship.blit(esperando,(900,30))

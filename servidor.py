@@ -72,7 +72,7 @@ def server(adminmusic):
                          if event.key==pygame.K_BACKSPACE:
                               user_text=user_text[:-1]
                          else:
-                              if len(user_text)<=11:
+                              if len(user_text)<=15:
                                    user_text+=event.unicode
                """permite escribir en el segundo campo de texto"""
                if escribiendo2==True:
@@ -80,7 +80,7 @@ def server(adminmusic):
                          if event.key==pygame.K_BACKSPACE:
                               user_text2=user_text2[:-1]
                          else:
-                              if len(user_text2)<=11:
+                              if len(user_text2)<=15:
                                    letra=event.unicode
                                    if letra.isdigit():
                                         user_text2+=event.unicode  

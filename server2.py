@@ -16,8 +16,8 @@ def intentarconectar():
     s.listen(2)
     print("waiting for a connection, server started")
 
-server =''
-port = 5555
+server ='localhost'
+port = 7300
 auxplayer=Player(0,0,50,50,(255,0,0),True)
 """se crea un socket para mantener conectado el servidor con los clientes"""
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
