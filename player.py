@@ -18,11 +18,23 @@ class Player():
                 self.miturno=turno
                 self.ponersolobarcos=True
                 self.confirmacion=False
+                self.hacercambio=False
                 self.nroturno=1
+                self.fin=False
                 if turno==True:
                         self.jugador="p1"
                 else:
                         self.jugador="p2"
+        def setfin(self,valor):
+                self.fin=valor
+        def getfin(self):
+                return self.fin
+        def gethacercambio(self):
+                return self.hacercambio
+        def sethacercambio(self,valor):
+                self.hacercambio=valor
+        def setnrobloques(self,valor):
+                self.nrobloques=valor
         def restarnrobloques(self,valor):
                 self.nrobloques=self.nrobloques-valor
         def getnrobloques(self):
@@ -43,6 +55,8 @@ class Player():
         def setmiturno(self,v):
                 """Funcion que: actualiza el estado del jugador"""
                 self.miturno=v
+        def setnroturno(self,valor):
+                self.nroturno=valor
         def increnroturno(self):
                 self.nroturno=self.nroturno+1
         def getnroturno(self):

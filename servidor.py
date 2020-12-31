@@ -5,6 +5,7 @@ def server(adminmusic):
      import sys
      import funcionesgenerales
      import s_juego
+     import s_juego2
      """inicializamos el sonido para botones"""
      sonidoboton=pygame.mixer.Sound('sound/boton.wav')
      serv=pygame.display.set_mode((1152,700))
@@ -16,8 +17,8 @@ def server(adminmusic):
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
      """se carga una fuente, y renderizar textos"""
      mifuente=pygame.font.SysFont("Consolas",60)
-     titulo_server=mifuente.render("Servidor IP",0,(255,255,255))
-     titulo_contrasenha=mifuente.render("Puerto",0,(255,255,255))
+     titulo_server=mifuente.render("Servidor",0,(255,255,255))
+     titulo_contrasenha=mifuente.render("Contraseña",0,(255,255,255))
      """se crea una fuente e inicializan 2 cadenas de texto"""
      base_font=pygame.font.SysFont("Arial",55)
      base_font2=pygame.font.SysFont("Arial",40)
@@ -27,6 +28,9 @@ def server(adminmusic):
      jugar=pygame.image.load('img/btnjugar.png')
      jugar2=pygame.image.load('img/btnjugar2.png')
      btnjugar=funcionesgenerales.Boton(jugar,jugar2,480,600)
+     vscom=pygame.image.load('img/vscom.png')
+     vscom2=pygame.image.load('img/vscom2.png')
+     btnvscom=funcionesgenerales.Boton(vscom,vscom2,480,450)
      """se inicializan estados de estar escribiendo en un campo"""
      escribiendo=False
      escribiendo2=False
@@ -54,7 +58,9 @@ def server(adminmusic):
                          sinconexion=0
                          sonidoboton.play()
                          sinconexion=s_juego.juego(user_text,int(user_text2))
-                         
+                    if cursor1.colliderect(btnvscom.rect):
+                         sonidoboton.play()
+                         s_juego2.juego()
                     """redefine el estado escribiendo primer campo de texto"""
                     if cursor1.colliderect(serv_rect) and cursor1.colliderect(a)==True:
                          escribiendo=True
@@ -109,6 +115,7 @@ def server(adminmusic):
           """muestra de boton "regresar", jugar"""
           boton1.update(serv,cursor1)
           btnjugar.update(serv,cursor1)
+          btnvscom.update(serv,cursor1)
           """carga los elementos del update"""
           pygame.display.update()
      adminmusic.saliendopantalla()

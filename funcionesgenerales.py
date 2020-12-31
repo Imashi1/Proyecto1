@@ -104,12 +104,28 @@ class Barco(pygame.sprite.Sprite):
           if self.rect.colliderect(botonconfirmarjugada.rect):
                valor=True
           return valor
+     def superposicionb2(self,listaizq,botonconfirmarjugada):###
+          valor=False
+          for i in (listaizq[:-1]):
+               if (self.rect).colliderect(i.rect):
+                    valor=True
+          if self.rect.colliderect(botonconfirmarjugada.rect):
+               valor=True
+          return valor
      def superposicionm(self,listabarcos,listamisiles,listamisilesrival,botonconfirmarjugada):
           valor=False
           for i in (listabarcos):
                if (self.rect).colliderect(i.rect):
                     valor=True
           for j in (listamisiles[:-1]):
+               if (self.rect).colliderect(j.rect):
+                    valor=True
+          if self.rect.colliderect(botonconfirmarjugada.rect):
+               valor=True
+          return valor
+     def superposicionm2(self,listader,botonconfirmarjugada):###
+          valor=False
+          for j in (listader[:-1]):
                if (self.rect).colliderect(j.rect):
                     valor=True
           if self.rect.colliderect(botonconfirmarjugada.rect):
