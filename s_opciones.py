@@ -13,7 +13,7 @@ def opci(adminmusic):
      base=pygame.image.load('img/basemusica.png')
      scroll=pygame.image.load('img/scroll.png')
      rectscroll=scroll.get_rect()
-     rectscroll.left,rectscroll.top=int(160*pygame.mixer.music.get_volume()+700),100 #(y)=0,5/80(x-850)
+     rectscroll.left,rectscroll.top=int(160*pygame.mixer.music.get_volume()+700),110 #(y)=0,5/80(x-850)
      """carga de imagenes botones musica"""
      btn_1v1=pygame.image.load('img/atras.png')
      btn_1v12=pygame.image.load('img/atras2.png')
@@ -24,10 +24,10 @@ def opci(adminmusic):
      btnizq=pygame.image.load('img/sgteizq.png')
      """creacion de botones musica"""
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
-     btnmusicaon=funcionesgenerales.Boton(btnpararmusica,btnpararmusica,630,85)
-     btnmusicaoff=funcionesgenerales.Boton(btnactivarmusica,btnpausar,980,85)
-     btnsgteder=funcionesgenerales.Boton(btnder,btnder,1040,85)
-     btnsgteizq=funcionesgenerales.Boton(btnizq,btnizq,910,85)
+     btnmusicaon=funcionesgenerales.Boton(btnpararmusica,btnpararmusica,630,100)
+     btnmusicaoff=funcionesgenerales.Boton(btnactivarmusica,btnpausar,980,100)
+     btnsgteder=funcionesgenerales.Boton(btnder,btnder,1040,100)
+     btnsgteizq=funcionesgenerales.Boton(btnizq,btnizq,910,100)
      """se carga un fuente para el texto sonido"""
      mifuente=pygame.font.SysFont("Consolas",60)
      titulo_sonido=mifuente.render("sonido",0,(255,255,255))
@@ -86,10 +86,10 @@ def opci(adminmusic):
                          
           """define el color de fondo de la pantalla y se agregan textos, scroll"""
           opciones.fill((50,150,200))
-          opciones.blit(titulo_sonido,(250,85))
-          opciones.blit(base,(700,105))
+          opciones.blit(titulo_sonido,(250,100))
+          opciones.blit(base,(700,115))
           opciones.blit(scroll,rectscroll)
-          opciones.blit(titopciones,(450,3))
+          opciones.blit(titopciones,(450,0))
           cursor1.update()
           """permite y restringe el movimiento del scroll
           y al mismo tiempo baja o sube el volumen"""

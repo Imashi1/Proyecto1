@@ -165,12 +165,12 @@ class Barco(pygame.sprite.Sprite):
           self.confirmado=valor
 class Soundtrack():
      """Clase soundtrack: Permite la administracion de una lista de musica entre las pantallas del juego"""
-     def __init__(self):
-          self.lista=['music/music.mp3','music/music2.mp3','music/music3.mp3']
+     def __init__(self,listamusica):
+          self.lista=listamusica
           self.estado=pygame.mixer.music.get_busy()
           self.volumen=pygame.mixer.music.get_volume()
           self.circulo=True
-          self.nromusica=3
+          self.nromusica=len(listamusica)
           self.nroactual=1
           self.posicion=0
           self.pausar=False
@@ -258,6 +258,8 @@ class Animacion(pygame.sprite.Sprite):
      def activar(self):
           self.contador=0
           self.iniciar=True
+     def setpos(self,x,y):
+          self.rect.left,self.rect.top=(x,y)
      def parar(self):
           self.inciar=False
      def getiniciar(self):
@@ -275,5 +277,7 @@ class Animacion(pygame.sprite.Sprite):
                self.contador=0
                self.iniciar=False
           pantalla.blit(pygame.image.load(self.lista[int(self.contador)]),self.rect)
+
+
 
                

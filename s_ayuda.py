@@ -13,8 +13,9 @@ def ayud(adminmusic):
      btn_1v12=pygame.image.load('img/atras2.png')
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
      """se crea un barco para realizar un ejemplo del juego"""
-     imagenbarco=pygame.image.load('img/barco32.png')
+     imagenbarco=pygame.image.load('img/barco43.png')
      mapaayud=pygame.image.load('img/mapaayud.png')
+     fondoayud=pygame.image.load('img/fondoayud2.png')
      barcoayud=funcionesgenerales.Barco(imagenbarco,imagenbarco,820,270,1)
      """se cargan las instrucciones del juego"""
      int1=pygame.image.load('img/int1.png')
@@ -55,11 +56,12 @@ def ayud(adminmusic):
                barcoayud.mover(cursor1,54,[750,320],barcoayudmoviendo,6,6)
           """carga de color de fondo, imagenes y boton regresar"""
           ayu.fill((50,150,200))
-          ayu.blit(int1,(10,220))
+          ayu.blit(fondoayud,(30,50))
+          ayu.blit(int1,(30,220))
           ayu.blit(int2,(710,150))
           ayu.blit(mapaayud,(750,320))
           barcoayud.update(ayu,cursor1)
-          ayu.blit(titayuda,(450,3))
+          ayu.blit(titayuda,(450,0))
           """se carga un cursor para la pantalla"""
           cursor1.update()
           boton1.update(ayu,cursor1)

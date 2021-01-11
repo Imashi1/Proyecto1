@@ -51,7 +51,7 @@ def menup():
      iconayuda=pygame.image.load('img/ayuda.png')
      iconsalir=pygame.image.load('img/salir.png')
      """poniendo el titulo del juego, primero cargando una fuente, y luego renderizando un string con esa fuente"""
-     mifuente=pygame.font.SysFont("Arial",86)
+     mifuente=pygame.font.SysFont("Consolas",86)
      titulo_menu=mifuente.render("BATTLESHIP",0,(255,255,255))
      """creando botones para el menu"""
      btn1v1=funcionesgenerales.Boton(unov1,unov12,30,550)
@@ -59,7 +59,7 @@ def menup():
      btnayuda=funcionesgenerales.Boton(ayuda,ayuda2,590,550)
      btnsalir=funcionesgenerales.Boton(salir,salir2,870,550)
      """creando el administrador de una lista de musica, y la reproduce"""
-     adminmusic=funcionesgenerales.Soundtrack()
+     adminmusic=funcionesgenerales.Soundtrack(['music/music.mp3','music/music2.mp3','music/music3.mp3'])
      adminmusic.reproducir()
      """inicializando el estado de correr el juego y asi detectar cuando salir del bucle del juego"""
      running_menu=True
@@ -101,7 +101,7 @@ def menup():
           """se le ingresa un color de relleno al menu"""
           menu.fill((50,150,200))
           """se muestra el titulo, imagenes,al menu a la pantalla"""
-          menu.blit(titulo_menu,(340,13))
+          menu.blit(titulo_menu,(350,13))
           ship1.update1(0.07,menu)
           menu.blit(ship2,(0,557))
           """carga el cursor en la pantalla"""

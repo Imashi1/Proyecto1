@@ -33,6 +33,17 @@ def threaded_client(conn, player):
             players[player]=data
         players[player].setnrobloques(data.getnrobloques())
         players[player].setnroturno(data.getnroturno())
+        
+        if (players[0].getponersolobarcos()==False and players[1].getponersolobarcos()==False) and (players[0].getnrobloques()==0 or players[1].getnrobloques()==0) and (players[0].getnroturno()==players[1].getnroturno()):
+            if players[0].getnrobloques()==0 and players[1].getnrobloques()!=0:
+                players[0].setfin(2)
+                players[1].setfin(1)
+            elif players[0].getnrobloques()!=0 and players[1].getnrobloques()==0:
+                players[0].setfin(1)
+                players[1].setfin(2)
+            else:
+                players[0].setfin(3)
+                players[1].setfin(3)
         if player==1:
             if players[1].gethacercambio()==True:
                 players[1].sethacercambio(False)
@@ -51,12 +62,6 @@ def threaded_client(conn, player):
                 else:
                     players[0].setmiturno(True)
                     players[1].setmiturno(False)
-        #if (players[player].getnrobloques()==0)and(players[0].getponersolobarcos()==False and players[1].getponersolobarcos()==False)and(players[0].getnroturno()==players[1].getnroturno()):            
-          #  if player ==1:
-           #     players[0].setfin(True)
-           # else:
-            #    players[1].setfin(True)
-            
         if not data:
             pass
         else:

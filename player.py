@@ -20,7 +20,7 @@ class Player():
                 self.confirmacion=False
                 self.hacercambio=False
                 self.nroturno=1
-                self.fin=False
+                self.fin=0
                 if turno==True:
                         self.jugador="p1"
                 else:

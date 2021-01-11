@@ -16,21 +16,21 @@ def server(adminmusic):
      btn_1v12=pygame.image.load('img/atras2.png')
      boton1=funcionesgenerales.Boton(btn_1v1,btn_1v12,10,10)
      """se carga una fuente, y renderizar textos"""
-     mifuente=pygame.font.SysFont("Consolas",60)
+     mifuente=pygame.font.SysFont("Consolas",50)
      titulo_server=mifuente.render("Servidor",0,(255,255,255))
      titulo_contrasenha=mifuente.render("Contraseña",0,(255,255,255))
      """se crea una fuente e inicializan 2 cadenas de texto"""
-     base_font=pygame.font.SysFont("Arial",55)
-     base_font2=pygame.font.SysFont("Arial",40)
+     base_font=pygame.font.SysFont("Consolas",30)
+     base_font2=pygame.font.SysFont("Consolas",30)
      user_text=''
      user_text2=''
      """se carga y crea el boton jugar"""
      jugar=pygame.image.load('img/btnjugar.png')
      jugar2=pygame.image.load('img/btnjugar2.png')
-     btnjugar=funcionesgenerales.Boton(jugar,jugar2,480,600)
+     btnjugar=funcionesgenerales.Boton(jugar,jugar2,480,450)
      vscom=pygame.image.load('img/vscom.png')
      vscom2=pygame.image.load('img/vscom2.png')
-     btnvscom=funcionesgenerales.Boton(vscom,vscom2,480,450)
+     btnvscom=funcionesgenerales.Boton(vscom,vscom2,480,600)
      """se inicializan estados de estar escribiendo en un campo"""
      escribiendo=False
      escribiendo2=False
@@ -57,10 +57,19 @@ def server(adminmusic):
                     if cursor1.colliderect(btnjugar.rect)and len(user_text)!=0 and len(user_text)!=0:
                          sinconexion=0
                          sonidoboton.play()
+                         adminmusic.sdetener()
                          sinconexion=s_juego.juego(user_text,int(user_text2))
+                         adminmusic.activar()
+                         adminmusic.reproducir()
+                         
+                    if cursor1.colliderect(btnjugar.rect)and (len(user_text)==0 or len(user_text)==0):
+                         sinconexion=2
                     if cursor1.colliderect(btnvscom.rect):
                          sonidoboton.play()
+                         adminmusic.sdetener()
                          s_juego2.juego()
+                         adminmusic.activar()
+                         adminmusic.reproducir()
                     """redefine el estado escribiendo primer campo de texto"""
                     if cursor1.colliderect(serv_rect) and cursor1.colliderect(a)==True:
                          escribiendo=True
@@ -101,14 +110,17 @@ def server(adminmusic):
           serv.blit(titulo_contrasenha,(200,340))
           """inicializan los textos que van en los campos de texto"""
           text_surface=base_font.render(user_text,True,(0,0,0))
-          if user_text=="":
-               text_surface=base_font2.render("Digite el servidor",True,(0,0,0))
           text_surface2=base_font.render(user_text2,True,(0,0,0))
-          if user_text2=="":
+          if user_text=="" and escribiendo==False:
+               text_surface=base_font2.render("Digite el servidor",True,(0,0,0))
+          if user_text2=="" and escribiendo2==False:
                text_surface2=base_font2.render("Digite la contraseña",True,(0,0,0))
           if sinconexion==-1:
-               text_surface3=base_font2.render("Digite una IP y puerto valido!!",True,(255,0,0))
-               serv.blit(text_surface3,(400,550))
+               text_surface3=base_font2.render("IP y puerto invalidos!!",True,(255,0,0))
+               serv.blit(text_surface3,(30,640))
+          if sinconexion==2:
+               text_surface3=base_font2.render("Rellene los campos",True,(255,0,0))
+               serv.blit(text_surface3,(30,640))
           """muestra los textos que van en los campos de texto"""
           serv.blit(text_surface,(610,200))
           serv.blit(text_surface2,(610,340))

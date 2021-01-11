@@ -8,17 +8,19 @@ def juego():
      from player import Player
      import random
      battleship=pygame.display.set_mode((1152,700))
-     txt1=funcionesgenerales.Animacion('img/debescolocarbarcos/',500,60)
-     txt2=funcionesgenerales.Animacion('img/cantidaddeestosbarcosagotados/',500,60)
-     txt3=funcionesgenerales.Animacion('img/debescolocarmisiles/',500,60)
-     ganaste=funcionesgenerales.Animacion('img/ganaste/',200,60)
-     perdiste=funcionesgenerales.Animacion('img/perdiste/',200,60)
+     txt1=funcionesgenerales.Animacion('img/debescolocarbarcos/',400,550)
+     txt2=funcionesgenerales.Animacion('img/cantidaddeestosbarcosagotados/',400,550)
+     txt3=funcionesgenerales.Animacion('img/debescolocarmisiles/',400,550)
+     ganaste=funcionesgenerales.Animacion('img/ganaste/',400,60)
+     perdiste=funcionesgenerales.Animacion('img/perdiste/',400,60)
+     explos=funcionesgenerales.Animacion('img/explosion/',300,300)
      advertencia=0
      """se crea un cursor para el juego"""
      cursor1=funcionesgenerales.Cursor()
      """carga sonido para el boton"""
      sonidoboton=pygame.mixer.Sound('sound/boton.wav')
-     sonidoexplosion=pygame.mixer.Sound('sound/expl.wav')
+     sonidoexplosion=pygame.mixer.Sound('sound/expl.mp3')
+     sonidolanzar=pygame.mixer.Sound('sound/lanzar.mp3')
      """se carga el fondo de los mapas"""
      fondomapai=funcionesgenerales.Animacion('img/mapa/',10,100)
      fondomapad=funcionesgenerales.Animacion('img/mapa/',590,100)
@@ -64,8 +66,9 @@ def juego():
      crearbarco4=funcionesgenerales.Boton(btn_crearbarco4,btn_crearbarco4_2,349,67)
      crearbarco5=funcionesgenerales.Boton(btn_crearbarco5,btn_crearbarco5_2,462,67)
      botonmisil=funcionesgenerales.Boton(btn_misil,btn_misil2,850,57)
-
-     
+     marcador1=pygame.image.load('img/contadores/azul/azul.png')
+     marcador2=pygame.image.load('img/contadores/rojo/rojo.png')
+     marcador3=pygame.image.load('img/contadores/negro/negro.png')
      p=Player(0,0,50,50,(255,0,0),True)
      p2=Player(100,100,50,50,(0,0,255),False)
 
@@ -78,7 +81,11 @@ def juego():
      listader=[]     
 
 
-     
+     explosion=False#
+     marcador1anim=False
+     marcador2anim=False
+     animar1=funcionesgenerales.Animacion('img/contadores/azul/',590,20)
+     animar2=funcionesgenerales.Animacion('img/contadores/rojo/',590,50)
      cantidadmaxima=7
      acuerdobarcos=[7,6,5,4,3]
      cuentabarcosespecial=[0,0,0,0,0]
@@ -87,6 +94,8 @@ def juego():
      advertencia=0
      partida=True
      fin=0
+     adminmusic=funcionesgenerales.Soundtrack(['music/Big Trap 24-12-2020 07-08.mp3','music/Come Fly Away 30-12-2020 11-56.mp3'])
+     adminmusic.reproducir()
      cuentabarcosizq=0
      cuentabarcosder=0
      cuentamisilesizq=0
@@ -105,6 +114,7 @@ def juego():
      ############################################################
      running_juego=True
      while running_juego:
+          adminmusic.circular()
           if finalgame==False and (p.getnrobloques()==0 or p2.getnrobloques()==0) and (p.getponersolobarcos()==False and p2.getponersolobarcos()==False):
                p.setfin(True)
                finalgame=True
@@ -125,6 +135,7 @@ def juego():
                     sys.exit()
                """permite la rotacion del barco que se esta usando"""
                if event.type==pygame.KEYDOWN:
+                    
                     if event.key==pygame.K_r:
                          if barcomoviendo:
                               listaizq[cuentabarcosizq-1].rotar(90)
@@ -135,7 +146,6 @@ def juego():
                          sonidoboton.play()
                          running_juego=False
                if event.type==pygame.MOUSEBUTTONUP:
-          
                     """boton para crear un nuevo misil"""
                     if cursor1.colliderect(botonmisil.rect)and(p.getmiturno()==True)and(p.getponersolobarcos()==False):
                          if misilmoviendo:
@@ -310,13 +320,19 @@ def juego():
                                    auxpos=dfder.iloc[x[1]][x[0]]
                                    dfder.iloc[x[1]][x[0]]='☼'
                               listader[cuentamisilesder-1].setconfirmado(True)
+                              sonidolanzar.play()
 
                          if cuentabarcosizq>0 and cuentamisilesder>0:
                               for pos in pos2:
                                    if auxpos!='-':                                          
                                         listader[cuentamisilesder-1]=funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*pos[0]+600,54*pos[1]+110,0)
                                         sonidoexplosion.play()
+                                        explosion=True
+                                        explos.setpos(54*pos[0]+600-50,54*pos[1]+110-50)
+                                        explos.activar()
                                         p2.restarnrobloques(1)
+                                        marcador2anim=True
+                                        animar2.activar()
                          p.increnroturno()
                          if p.getponersolobarcos():
                               """se actualiza mapa mis barcos, al jugador de este codigo"""
@@ -327,9 +343,7 @@ def juego():
                               p.increnromisiles()
                          p.setmiturno(False)
                          p2.setmiturno(True)
-
-
-
+                         marcador1anim=True
                          
           """se pone color de fondo de la pantalla"""
           battleship.fill((50,150,200))
@@ -337,6 +351,9 @@ def juego():
           """se muestran los mapas del juego"""
           fondomapai.update1(0.3,battleship)
           fondomapad.update1(0.3,battleship)
+          battleship.blit(marcador1,(590,20))
+          battleship.blit(marcador2,(590,50))
+          battleship.blit(marcador3,(890,20))
           """poner texto de mi turno o en espera"""
           if p.getmiturno()==True:
                battleship.blit(miturno,(900,30))
@@ -357,17 +374,17 @@ def juego():
           boton1.update(battleship,cursor1)
           if advertencia==1:
                if txt1.getiniciar()==True:
-                    txt1.update2(0.2,battleship)
+                    txt1.update2(0.02,battleship)
                else:
                     advertencia=0
           if advertencia==2:
                if txt2.getiniciar()==True:
-                    txt2.update2(0.2,battleship)
+                    txt2.update2(0.02,battleship)
                else:
                     advertencia=0
           if advertencia==3:
                if txt3.getiniciar()==True:
-                    txt3.update2(0.2,battleship)
+                    txt3.update2(0.02,battleship)
                else:
                     advertencia=0
           """se muestran los barcos que estan en la lista de barcos"""
@@ -389,6 +406,23 @@ def juego():
           if misilmoviendo:
                listader[cuentamisilesder-1].mover(cursor1,54,[590,100],misilmoviendo,10,10)
           """carga los elementos del update"""
+          if explosion==True:
+               if explos.getiniciar()==True:
+                    explos.update2(0.5,battleship)
+               else:
+                    explosion=False
+          if marcador1anim==True:
+               if animar1.getiniciar()==True:
+                    animar1.update2(0.4,battleship)
+               else:
+                    marcador1anim=False
+          if marcador2anim==True:
+               if animar2.getiniciar()==True:
+                    animar2.update2(0.4,battleship)
+               else:
+                    marcador2anim=False
+               
+               
           pygame.display.update()
           ##################################################################
           auxcuentamisiles=cuentamisilesizq
@@ -434,7 +468,12 @@ def juego():
                          listaizq.append(funcionesgenerales.Barco(imagenmisilb,imagenmisilb,54*indices[1]+20,54*indices[0]+110))
                          if auxpos=='◘':
                               sonidoexplosion.play()
+                              explosion=True
+                              explos.setpos(54*indices[1]+20-50,54*indices[0]+110-50)
+                              explos.activar()
                               p.restarnrobloques(1)
+                              marcador1anim=True
+                              animar1.activar()
                               listaizq=listaizq[:-1]
                               listaizq.append(funcionesgenerales.Barco(imagenmisilr,imagenmisilr,54*indices[1]+20,54*indices[0]+110))
                          cuentamisilesizq=cuentamisilesizq+1
@@ -445,3 +484,4 @@ def juego():
                if cuentamisilesizq!=auxcuentamisiles and p2.getponersolobarcos()==False:
                     p2.setmiturno(False)
                     p.setmiturno(True)
+     adminmusic.sdetener()
